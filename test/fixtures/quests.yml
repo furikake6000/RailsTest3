@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  last_follower: 
+  last_following: 
+
+two:
+  type: 
+  last_follower: 
+  last_following: 
