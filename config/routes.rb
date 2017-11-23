@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   root 'static_pages#home'
 
-  get 'static_pages/about'
+  get '/auth/twitter/callback', to:'twitter_sessions#create'
+
+  get '/logout', to:'twitter_sessions#destroy'
+
+  get '/about', to:'static_pages#about'
 
 end
