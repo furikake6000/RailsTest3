@@ -1,2 +1,19 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+body{
+  padding-top: 10px;
+  background-color: #FBE251;
+}
+
+section{
+  overflow: auto;
+}
+
+textarea{
+  resize: vertical;
+}
+
+.center{
+  text-align: center;
+}
