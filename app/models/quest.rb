@@ -1,5 +1,4 @@
 class Quest < ApplicationRecord
-<<<<<<< HEAD
 
   belongs_to :user
   validates :user_id, presence:true
@@ -31,6 +30,4 @@ class Quest < ApplicationRecord
     self.last_follower = @last_follower
     self.last_following = @last_following
   end
-=======
->>>>>>> d124feea3fc206fabf8201b7678e85406077b222
 end
