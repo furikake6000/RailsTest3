@@ -7,6 +7,7 @@ class TwitterSessionsController < ApplicationController
 
     session[:token] = auth.credentials.token
     session[:secret] = auth.credentials.secret
+    user = log_in(auth[:uid])
 
     redirect_to root_path
 

@@ -3,7 +3,8 @@ class QuestsController < ApplicationController
   end
 
   def show
-    @quests = 
+    @user = current_user
+    @quests = @user.quests.all
   end
 
   def destroy
