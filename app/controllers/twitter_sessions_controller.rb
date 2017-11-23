@@ -4,11 +4,12 @@ class TwitterSessionsController < ApplicationController
 
   def create
     auth = request.env['omniauth.auth']
-    user = User.find_or_create_from_auth(auth)
-    log_in(user)
 
-    client = client_new(auth)
-    @tweets = client.home_timeline(include_entities: true)
+    session[:token] = auth.credentials.token
+    session[:secret] = auth.credentials.secret
+
+    client = client_new
+    @tweets = client.home_timeline(include_entities: false)
 
   end
 
@@ -18,13 +19,13 @@ class TwitterSessionsController < ApplicationController
   end
 
   private
-    def client_new(auth)
+    def client_new
       #Twitter APIのセットアップ
       Twitter::REST::Client.new do |config|
         config.consumer_key = Rails.application.secrets.twitter_api_key
         config.consumer_secret = Rails.application.secrets.twitter_api_secret
-        config.access_token = auth.credentials.token
-        config.access_token_secret = auth.credentials.secret
+        config.access_token = session[:token]
+        config.access_token_secret = session[:secret]
       end
     end
 end
