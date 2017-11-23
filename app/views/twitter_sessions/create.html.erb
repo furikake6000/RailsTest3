@@ -1,1 +1,15 @@
 <p>ログインしました！</p>
+
+<% @tweets.each do |tweet| %>
+  <div class="post">
+    <div class="name">
+      <%= tweet.user.name + ' @' + tweet.user.screen_name %>
+    </div>
+    <div class="content">
+      <%= tweet.text %>
+    </div>
+    <div class="mentions">
+      <%= tweet.retweet_count.to_s + 'リツイート、' + tweet.favorite_count.to_s + 'いいね' %>
+    </div>
+  </div>
+<% end %>

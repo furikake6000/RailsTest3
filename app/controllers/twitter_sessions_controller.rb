@@ -8,10 +8,8 @@ class TwitterSessionsController < ApplicationController
     log_in(user)
 
     client = client_new(auth)
-    #ためしにツイート
-    client.update "認証成功したぽよ～～～"
+    @tweets = client.home_timeline(include_entities: true)
 
-    redirect_to root_path
   end
 
   def destroy
