@@ -1,5 +1,11 @@
 <p>ログインしました！</p>
 
+<% @client.users(@followings.first(5)).each do |following| %>
+  <div class="user">
+    <%= following.name %>
+  </div>
+<% end %>
+
 <% @tweets.each do |tweet| %>
   <div class="post">
     <div class="name">
