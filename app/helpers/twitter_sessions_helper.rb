@@ -22,16 +22,18 @@ module TwitterSessionsHelper
   end
 
   def current_user
-    return User.find_by(session[:twid])
+    return User.find_by(twid: session[:twid])
   end
 
   private
     def create_user(twid)
       user = User.new
       user.twid = twid
+      user.save
+      @client ||= client_new
       #初期に5件のQuestを生成
       5.times do
-        Quest.randomgenerate(user)
+        Quest.generate_new(user, @client)
       end
     end
 end
