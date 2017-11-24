@@ -1,8 +1,18 @@
 <div class="post">
+  <script type="text/javascript">
+    setInterval( function(){
+      var e = document.getElementsByClassName("limit-<%= quest.id %> ")[0];
+      var limit = new Date("<%= quest.created_at.tomorrow.to_s %>");
+      var resttime = (limit.getTime() - Date.now()) / 1000;
+
+      e.innerHTML = "残り " +
+                    ('00' + Math.floor(resttime/60/60)).slice(-2) + ":" +
+                    ('00' + Math.floor(resttime/60%60)).slice(-2) + ":" +
+                    ('00' + Math.floor(resttime%60%60)).slice(-2);
+    }, 1000);
+  </script>
   <div class="content">
     <%= p quest.to_s %>
   </div>
-  <div class="limit">
-    <%= Time.at(quest.created_at - Time.zone.now).strftime("残り: %H:%M:%S") %>
-  </div>
+  <div class="limit limit-<%= quest.id %>">残り 00:00:00</div>
 </div>
