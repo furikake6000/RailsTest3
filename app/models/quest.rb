@@ -5,13 +5,17 @@ class Quest < ApplicationRecord
   validates :questtype, presence:true
 
   def Quest.generate_new(user, client)
-    @last_following ||= client.friend_ids.first
-    @last_follower ||= client.follower_ids.first
+    @last_following ||= client.friend_ids({count: 1}).first
+    @last_follower ||= client.follower_ids({count: 1}).first
+    @last_tweet ||= client.user_timeline({user_id: user.twid, count: 1}).first
+    @last_retweet ||= client.retweeted_by_me({count: 1}).first
 
     #生成して情報格納
     quest = user.quests.build
     quest.last_following = @last_following
     quest.last_follower = @last_follower
+    quest.last_tweet = @last_tweet
+    quest.last_retweet = @last_retweet
     quest.randomgenerate
     quest.save
     return quest
@@ -77,22 +81,22 @@ class Quest < ApplicationRecord
   def get_progress(client)
     case self.questtype
     when "follow_user_start_with_x" then
-      client.friend_ids.first(5).each do |friend|
-        break if friend == last_following
+      client.friend_ids({count: 50}).each do |friend|
+        break if friend == self.last_following
         return 1 if client.user(friend).name.start_with?(self.target)
       end
       return 0
     when "follow_n_user_contain_x" then
       count = 0
-      client.friend_ids.first(5).each do |friend|
-        break if friend == last_following
+      client.friend_ids({count: 50}).each do |friend|
+        break if friend == self.last_following
         count += 1 if client.user(friend).name.include?(self.target)
       end
       return count / self.value
     when "follow_n_user" then
       count = 0
-      client.friend_ids.first(5).each do |friend|
-        break if friend == last_following
+      client.friend_ids({count: 50}).each do |friend|
+        break if friend == self.last_following
         count += 1
       end
       return count / self.value
@@ -101,13 +105,17 @@ class Quest < ApplicationRecord
     when "retweet_n_tweet" then
       return 0
     when "tweet_n_tweet" then
+      client.user_timeline(current_user.twid, ({count: 100})).each do |tweetid|
+        break if tweetid == self.last_tweet
+        count += 1
+      end
       return 0
     when "tweet_start_with_x" then
       return 0
     when "followed_by_n_user" then
       count = 0
-      client.follower_ids.first(5).each do |follower|
-        break if follower == last_following
+      client.follower_ids.each do |follower|
+        break if follower == self.last_following
         count += 1
       end
       return count / self.value

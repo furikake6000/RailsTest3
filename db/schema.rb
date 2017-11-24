@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124011554) do
+ActiveRecord::Schema.define(version: 20171124060001) do
 
   create_table "quests", force: :cascade do |t|
     t.string "questtype"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20171124011554) do
     t.integer "user_id"
     t.integer "value"
     t.string "target"
+    t.integer "last_tweet"
+    t.integer "last_retweet"
     t.index ["user_id"], name: "index_quests_on_user_id"
   end
 
