@@ -15,7 +15,7 @@
     <%= p quest.to_s %>
   </div>
   <div class="progress progress-<%= quest.id %>">
-    <%= p quest.get_progress(current_user, @client) %>
+    <%= p quest.get_progress(@user, @client).to_s + "% 達成中！" %>
   </div>
   <div class="limit limit-<%= quest.id %>">残り 00:00:00</div>
 </div>

@@ -81,50 +81,67 @@ class Quest < ApplicationRecord
     begin
       case self.questtype
       when "follow_user_start_with_x" then
-        client.friend_ids({count: 50}).each do |friend|
+        @friends ||= client.friend_ids({count: 30})
+        @friends.each do |friend|
           break if friend.to_s == self.last_following
-          return 1 if client.user(friend).name.start_with?(self.target)
+          return 100 if client.user(friend).name.start_with?(self.target)
         end
         return 0
       when "follow_n_user_contain_x" then
         count = 0
-        client.friend_ids({count: 50}).each do |friend|
+        @friends ||= client.friend_ids({count: 30})
+        @friends.each do |friend|
           break if friend.to_s == self.last_following
-          count += 1 if client.user(friend).name.include?(self.target)
+          count += 100 if client.user(friend).name.include?(self.target)
         end
         return count / self.value
       when "follow_n_user" then
         count = 0
-        client.friend_ids({count: 50}).each do |friend|
+        @friends ||= client.friend_ids({count: 30})
+        @friends.each do |friend|
           break if friend.to_s == self.last_following
           count += 1
         end
-        return count / self.value
+        return count * 100 / self.value
       when "retweet_tweet_start_with_x" then
+        @retweets ||= client.retweeted_by_me({count: 30})
+        @retweets.each do |tweet|
+          break if tweet.id.to_s == self.last_retweet
+          return 100 if tweet.text.start_with?(self.target)
+        end
         return 0
       when "retweet_n_tweet" then
         count = 0
-        client.retweeted_by_me({count: 100}).each do |tweet|
+        @retweets ||= client.retweeted_by_me({count: 30})
+        @retweets.each do |tweet|
           break if tweet.id.to_s == self.last_retweet
           count += 1
         end
-        return count / self.value
+        return count * 100 / self.value
       when "tweet_n_tweet" then
         count = 0
-        client.user_timeline({user_id: user.twid, count: 100}).each do |tweet|
+        @tweets ||= client.user_timeline({user_id: user.twid, count: 30})
+        @tweets.each do |tweet|
           break if tweet.id.to_s == self.last_tweet
           count += 1
         end
-        return count / self.value
+        return count * 100 / self.value
       when "tweet_start_with_x" then
-        return 0
+        count = 0
+        @tweets ||= client.user_timeline({user_id: user.twid, count: 30})
+        @tweets.each do |tweet|
+          break if tweet.id.to_s == self.last_retweet
+          count += 1 if tweet.text.start_with?(self.target)
+        end
+        return count * 100 / self.value
       when "followed_by_n_user" then
         count = 0
-        client.follower_ids.each do |follower|
+        @followers ||= client.follower_ids.each
+        @followers.each do |follower|
           break if follower.to_s == self.last_following
           count += 1
         end
-        return count / self.value
+        return count * 100 / self.value
       end
     rescue Twitter::Error::TooManyRequests
       return "Twitter API上限に達しました。しばらくしてから再度お試しください。"
