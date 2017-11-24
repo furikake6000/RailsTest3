@@ -10,6 +10,8 @@ class Quest < ApplicationRecord
 
     #生成して情報格納
     quest = user.quests.build
+    quest.last_following = @last_following
+    quest.last_follower = @last_follower
     quest.randomgenerate
     quest.save
     return quest
@@ -69,6 +71,46 @@ class Quest < ApplicationRecord
       return "「" + self.target + "」 から始まるツイートをしよう！"
     when "followed_by_n_user" then
       return self.value.to_s + "人にフォローされよう！"
+    end
+  end
+
+  def get_progress(client)
+    case self.questtype
+    when "follow_user_start_with_x" then
+      client.friend_ids.first(5).each do |friend|
+        break if friend == last_following
+        return 1 if client.user(friend).name.start_with?(self.target)
+      end
+      return 0
+    when "follow_n_user_contain_x" then
+      count = 0
+      client.friend_ids.first(5).each do |friend|
+        break if friend == last_following
+        count += 1 if client.user(friend).name.include?(self.target)
+      end
+      return count / self.value
+    when "follow_n_user" then
+      count = 0
+      client.friend_ids.first(5).each do |friend|
+        break if friend == last_following
+        count += 1
+      end
+      return count / self.value
+    when "retweet_tweet_start_with_x" then
+      return 0
+    when "retweet_n_tweet" then
+      return 0
+    when "tweet_n_tweet" then
+      return 0
+    when "tweet_start_with_x" then
+      return 0
+    when "followed_by_n_user" then
+      count = 0
+      client.follower_ids.first(5).each do |follower|
+        break if follower == last_following
+        count += 1
+      end
+      return count / self.value
     end
   end
 end

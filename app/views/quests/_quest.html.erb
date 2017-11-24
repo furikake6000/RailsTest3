@@ -11,8 +11,11 @@
                     ('00' + Math.floor(resttime%60%60)).slice(-2);
     }, 1000);
   </script>
-  <div class="content">
+  <div class="content content-<%= quest.id %>">
     <%= p quest.to_s %>
+  </div>
+  <div class="progress progress-<%= quest.id %>">
+    <%= p quest.get_progress(@client) %>
   </div>
   <div class="limit limit-<%= quest.id %>">残り 00:00:00</div>
 </div>

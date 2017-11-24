@@ -4,6 +4,7 @@ class QuestsController < ApplicationController
 
   def show
     @user = current_user
+    @client = client_new
     @quests = @user.quests.all
   end
 
