@@ -2,8 +2,8 @@ class CreateQuests < ActiveRecord::Migration[5.1]
   def change
     create_table :quests do |t|
       t.string :questtype
-      t.integer :last_follower
-      t.integer :last_following
+      t.string :last_follower
+      t.string :last_following
 
       t.timestamps
     end
