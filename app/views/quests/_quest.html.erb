@@ -1,3 +1,8 @@
 <div class="post">
-  <%= p quest.to_s %>
+  <div class="content">
+    <%= p quest.to_s %>
+  </div>
+  <div class="limit">
+    <%= Time.at(quest.created_at - Time.zone.now).strftime("残り: %H:%M:%S") %>
+  </div>
 </div>
