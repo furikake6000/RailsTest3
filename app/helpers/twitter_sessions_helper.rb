@@ -11,7 +11,7 @@ module TwitterSessionsHelper
   end
 
   def logged_in?
-    !session[:twid].nil?
+    !(current_user.nil?)
   end
 
   def log_in(twid)
@@ -22,6 +22,7 @@ module TwitterSessionsHelper
   end
 
   def current_user
+    return nil if session[:twid].nil?
     return User.find_by(twid: session[:twid])
   end
 
