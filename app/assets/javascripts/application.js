@@ -15,3 +15,4 @@
 //= require jquery-3.2.1
 //= require bootstrap-sprockets
 //= require jcanvas
+//= require customize
