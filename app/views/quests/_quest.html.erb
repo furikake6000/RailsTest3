@@ -24,9 +24,9 @@
           fillStyle: '#E8BC23',
           shadowColor: '#333',
           shadowBlur: 5,
-          x: -390,
+          x: 5,
           y: 5,
-          width: $canvas.width() - 20,
+          width: 0,
           height: 30
         });
       $canvas
@@ -37,11 +37,11 @@
           x: 290, y: 13,
           fontSize: 21,
           font: 'sans-serif',
-          text: '<%= @progresses[quest.id] %>%達成中'
+          text: '<%= (@progresses[quest.id] * 100).to_i %>%達成中'
         });
       $canvas
       .animateLayer('bar', {
-          x: -390 + <%= @progresses[quest.id] * 4 %>
+          width: <%= @progresses[quest.id] %> * $canvas.width()
         });
     });
 
