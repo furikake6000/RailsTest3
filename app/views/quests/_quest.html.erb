@@ -3,12 +3,36 @@
     setInterval( function(){
       $(".limit-<%= quest.id %>").text(limitdate("<%= quest.created_at.tomorrow.to_s %>"));
     } , 1000);
+    $( function(){
+      $(".progressbar-<%= quest.id %>")
+      .drawRect({
+          layer: true,
+          fillStyle: '#000',
+          shadowColor: '#333',
+          shadowBlur: 5,
+          x: 10, y: 5,
+          width: 400,
+          height: 10,
+          mask: true
+        });
+      $(".progressbar-<%= quest.id %>")
+      .drawRect({
+          layer: true,
+          name: 'bar',
+          fillStyle: '#C23685',
+          shadowColor: '#333',
+          shadowBlur: 5,
+          x: -390 + <%= (quest.get_progress(@user, @client) * 4).to_s %>,
+          y: 5,
+          width: 400,
+          height: 10
+        });
+    });
+
   </script>
   <div class="content content-<%= quest.id %>">
     <%= p quest.to_s %>
   </div>
-  <div class="progress progress-<%= quest.id %>">
-    <%= p quest.get_progress(@user, @client).to_s + "% 達成中！" %>
-  </div>
+  <canvas class="progressbar progressbar-<%= quest.id %>" width="420" height="30"></canvas>
   <div class="limit limit-<%= quest.id %>">残り 00:00:00</div>
 </div>
