@@ -1,0 +1,1 @@
+$.jCanvas.defaults.fromCenter = false;
