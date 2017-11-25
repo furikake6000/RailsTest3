@@ -22,7 +22,7 @@
           fillStyle: '#C23685',
           shadowColor: '#333',
           shadowBlur: 5,
-          x: -390 + <%= (quest.get_progress(@user, @client) * 4).to_s %>,
+          x: -390 + <%= (@progresses[quest.id] * 4).to_s %>,
           y: 5,
           width: 400,
           height: 10
