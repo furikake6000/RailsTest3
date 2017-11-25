@@ -4,28 +4,44 @@
       $(".limit-<%= quest.id %>").text(limitdate("<%= quest.created_at.tomorrow.to_s %>"));
     } , 1000);
     $( function(){
-      $(".progressbar-<%= quest.id %>")
+      var $canvas = $(".progressbar-<%= quest.id %>");
+      $canvas.attr('width', $canvas.parent().width())
+      $canvas
       .drawRect({
           layer: true,
           fillStyle: '#000',
           shadowColor: '#333',
           shadowBlur: 5,
           x: 10, y: 5,
-          width: 400,
-          height: 10,
+          width: $canvas.width() - 20,
+          height: 30,
           mask: true
         });
-      $(".progressbar-<%= quest.id %>")
+      $canvas
       .drawRect({
           layer: true,
           name: 'bar',
-          fillStyle: '#C23685',
+          fillStyle: '#E8BC23',
           shadowColor: '#333',
           shadowBlur: 5,
-          x: -390 + <%= (@progresses[quest.id] * 4).to_s %>,
+          x: -390,
           y: 5,
-          width: 400,
-          height: 10
+          width: $canvas.width() - 20,
+          height: 30
+        });
+      $canvas
+      .drawText({
+          fillStyle: '#E8BC23',
+          layer:'true',
+          name: 'progtext',
+          x: 290, y: 13,
+          fontSize: 21,
+          font: 'sans-serif',
+          text: '<%= @progresses[quest.id] %>%達成中'
+        });
+      $canvas
+      .animateLayer('bar', {
+          x: -390 + <%= @progresses[quest.id] * 4 %>
         });
     });
 
@@ -33,6 +49,6 @@
   <div class="content content-<%= quest.id %>">
     <%= p quest.to_s %>
   </div>
-  <canvas class="progressbar progressbar-<%= quest.id %>" width="420" height="30"></canvas>
+  <canvas class="progressbar progressbar-<%= quest.id %>" width="420" height="40"></canvas>
   <div class="limit limit-<%= quest.id %>">残り 00:00:00</div>
 </div>
