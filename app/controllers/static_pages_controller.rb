@@ -11,4 +11,8 @@ class StaticPagesController < ApplicationController
 
   def about
   end
+
+  def sandbox
+
+  end
 end

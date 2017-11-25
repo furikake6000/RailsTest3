@@ -9,4 +9,6 @@ Rails.application.routes.draw do
 
   get '/quests', to:'quests#show'
 
+  get '/sandbox', to:'static_pages#sandbox'
+
 end
