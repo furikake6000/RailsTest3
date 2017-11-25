@@ -1,2 +1,13 @@
 <h1>StaticPages#sandbox</h1>
 <p>Find me in app/views/static_pages/sandbox.html.erb</p>
+
+<canvas id="sandboxcanvas" width="320" height="240"></canvas>
+
+<script>
+$("#sandboxcanvas").drawRect({
+  fillStyle: '#000',
+  x: 0, y: 0,
+  width: 200,
+  height: 100
+});
+</script>
