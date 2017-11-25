@@ -9,25 +9,31 @@ function limitdate (limitstr){
   return str;
 };
 
-$.fn.progbar = function(){
-  $(this).drawRect({
-      layer: true,
-      fillStyle: '#000',
-      shadowColor: '#333',
-      shadowBlur: 10,
-      x: 10, y: 10,
-      width: 400,
-      height: 20,
-      mask: true
-    });
-  $(this).drawRect({
-      layer: true,
-      name: 'bar',
-      fillStyle: '#C23685',
-      shadowColor: '#333',
-      shadowBlur: 10,
-      x: -340, y: 10,
-      width: 400,
-      height: 20
-    });
-};
+$( function(){
+  $(".progressbar").each(function () {
+    $(this).attr('width', $(this).parent().width())
+    $(this)
+    .drawRect({
+        layer: true,
+        fillStyle: '#000',
+        shadowColor: '#333',
+        shadowBlur: 5,
+        x: 10, y: 5,
+        width: $(this).width() - 20,
+        height: 30,
+        mask: true
+      });
+    $(this)
+    .drawRect({
+        layer: true,
+        name: 'bar',
+        fillStyle: '#E8BC23',
+        shadowColor: '#333',
+        shadowBlur: 5,
+        x: 5,
+        y: 5,
+        width: 0,
+        height: 30
+      });
+  })
+});

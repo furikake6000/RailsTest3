@@ -7,29 +7,6 @@
       var $canvas = $(".progressbar-<%= quest.id %>");
       $canvas.attr('width', $canvas.parent().width())
       $canvas
-      .drawRect({
-          layer: true,
-          fillStyle: '#000',
-          shadowColor: '#333',
-          shadowBlur: 5,
-          x: 10, y: 5,
-          width: $canvas.width() - 20,
-          height: 30,
-          mask: true
-        });
-      $canvas
-      .drawRect({
-          layer: true,
-          name: 'bar',
-          fillStyle: '#E8BC23',
-          shadowColor: '#333',
-          shadowBlur: 5,
-          x: 5,
-          y: 5,
-          width: 0,
-          height: 30
-        });
-      $canvas
       .drawText({
           fillStyle: '#E8BC23',
           layer:'true',
