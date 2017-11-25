@@ -7,7 +7,7 @@ end
 
 
 gem 'rails', '~> 5.1.4'
-gem 'bootstrap-sass', '3.3.7'
+gem 'bootstrap', '~> 4.0.0.beta2.1'
 gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -20,6 +20,10 @@ gem 'jbuilder', '~> 2.5'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'twitter'
+
+#jQuery
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
