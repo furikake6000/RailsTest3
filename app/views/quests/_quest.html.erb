@@ -1,15 +1,8 @@
 <div class="post">
   <script type="text/javascript">
     setInterval( function(){
-      var e = document.getElementsByClassName("limit-<%= quest.id %> ")[0];
-      var limit = new Date("<%= quest.created_at.tomorrow.to_s %>");
-      var resttime = (limit.getTime() - Date.now()) / 1000;
-
-      e.innerHTML = "残り " +
-                    ('00' + Math.floor(resttime/60/60)).slice(-2) + ":" +
-                    ('00' + Math.floor(resttime/60%60)).slice(-2) + ":" +
-                    ('00' + Math.floor(resttime%60%60)).slice(-2);
-    }, 1000);
+      $(".limit-<%= quest.id %>").text(limitdate("<%= quest.created_at.tomorrow.to_s %>"));
+    } , 1000);
   </script>
   <div class="content content-<%= quest.id %>">
     <%= p quest.to_s %>
