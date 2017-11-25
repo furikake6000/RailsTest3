@@ -1,8 +1,5 @@
 <div class="post">
   <script type="text/javascript">
-    setInterval( function(){
-      $(".limit-<%= quest.id %>").text(limitdate("<%= quest.created_at.tomorrow.to_s %>"));
-    } , 1000);
     $( function(){
       var $canvas = $(".progressbar-<%= quest.id %>");
       $canvas.attr('width', $canvas.parent().width())
@@ -20,6 +17,22 @@
       .animateLayer('bar', {
           width: <%= @progresses[quest.id] %> * $canvas.width()
         });
+      <% if @progresses[quest.id] >= 1.0 %>
+      $canvas
+      .animateLayer('bar', {
+          fillStyle: '#0090DD'
+        });
+      <% end %>
+
+      <% if @progresses[quest.id] >= 1.0 %>
+      $canvas.on('click', function(){
+        $canvas.parent().remove();
+      });
+      <% end %>
+
+      setInterval( function(){
+        $(".limit-<%= quest.id %>").text(limitdate("<%= quest.created_at.tomorrow.to_s %>"));
+      } , 1000);
     });
 
   </script>
