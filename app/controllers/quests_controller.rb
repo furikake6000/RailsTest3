@@ -3,20 +3,24 @@ class QuestsController < ApplicationController
   end
 
   def show
-    @user = current_user
-    if @user.nil?
+    if current_user.nil?
       redirect_to root_path
     end
-    @client = client_new
-    @quests = @user.quests.all
+    @client ||= client_new
+    @quests = current_user.quests.all
     @progresses = {}
     @quests.each do |q|
-      @progresses[q.id] = get_progress(q, @user, @client)
+      @progresses[q.id] = get_progress(q, current_user, @client)
     end
   end
 
   def destroy
-    print("Destroy called")
+    targetquest = current_user.quests.find_by(id: params[:id])
+    if !targetquest.nil?
+      targetquest.destroy
+      @client ||= client_new
+      Quest.generate_new(current_user, @client)
+    end
   end
 
   def get_progress(quest, user, client)
