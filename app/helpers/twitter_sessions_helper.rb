@@ -23,7 +23,7 @@ module TwitterSessionsHelper
 
   def current_user
     return nil if session[:twid].nil?
-    return User.find_by(twid: session[:twid])
+    return @current_user ||= User.find_by(twid: session[:twid])
   end
 
   private
