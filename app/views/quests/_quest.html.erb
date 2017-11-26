@@ -64,23 +64,26 @@
         $canvas.setLayer('cleartext', {
             x: ($canvas.width() - $canvas.measureText('cleartext').width) / 2
           })
-        $canvas
-        .animateLayer('progtext', {
+        $canvas.animateLayer('progtext', {
             y: -37
           });
-        $canvas
-        .animateLayer('cleartext', {
+        $canvas.animateLayer('cleartext', {
             y: 10
           });
-        $canvas
-        .animateLayerGroup('shareButton', {
+        $canvas.animateLayerGroup('shareButton', {
             y: '-=50'
           });
-        $canvas
-          .animateLayer('bar', {
+        $canvas.animateLayer('bar', {
               fillStyle: '#0090DD'
-            });
-
+          });
+        $.ajax({
+          type: "DELETE",
+          url: "quests/destroy",
+          data: {
+            "id": "<%= quest.id %>",
+            "authenticity_token": "<%= form_authenticity_token %>"
+          }
+        })
       });
       <% end %>
 

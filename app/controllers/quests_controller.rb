@@ -16,6 +16,7 @@ class QuestsController < ApplicationController
   end
 
   def destroy
+    print("Destroy called")
   end
 
   def get_progress(quest, user, client)
