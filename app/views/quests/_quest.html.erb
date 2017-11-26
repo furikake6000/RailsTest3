@@ -8,44 +8,79 @@
           fillStyle: '#FFF449',
           layer:'true',
           name: 'progtext',
-          x: 290, y: 13,
+          x: $canvas.width() - 200, y: 13,
           fontSize: 21,
           font: 'sans-serif',
           text: '<%= (@progresses[quest.id] * 100).to_i %>%達成中'
+        });
+      $canvas.setLayer('progtext', {
+          x: $canvas.width() - $canvas.measureText('progtext').width - 30
         });
       $canvas
       .animateLayer('bar', {
           width: <%= @progresses[quest.id] %> * $canvas.width()
         });
+
       <% if @progresses[quest.id] >= 1.0 %>
       $canvas
       .animateLayer('bar', {
-          fillStyle: '#0090DD'
+          fillStyle: '#00C9FF'
         });
-      <% end %>
-
-      <% if @progresses[quest.id] >= 1.0 %>
-      $canvas.parent().on('click', function(){
+        $canvas
+        .drawRect({
+            layer: true,
+            groups: ['shareButton'],
+            fillStyle: '#0076FF',
+            shadowColor: '#333',
+            shadowBlur: 5,
+            x: $canvas.width() - 100, y: 57.5,
+            width: 80,
+            height: 25,
+            click: function(layer){
+              window.open('https://twitter.com/share?text=クエスト: <%= quest.to_s %> をクリアしました！&hashtags=デイリークエスったー', '_blank');
+            }
+          });
         $canvas
         .drawText({
-            fillStyle: '#FFF449',
+            fillStyle: '#FFF',
             layer:'true',
-            name: 'cleartext',
-            x: 140, y: 63,
-            fontSize: 21,
+            groups: ['shareButton'],
+            x: $canvas.width() - 80, y: 63,
+            fontSize: 16,
             font: 'sans-serif',
-            text: 'ク  エ  ス  ト  達  成  ！'
+            text: '共有'
           });
+      $canvas.parent().on('click', function(){
+        $canvas
+          .drawText({
+              fillStyle: '#FFF449',
+              layer:'true',
+              name: 'cleartext',
+              x: 0, y: 60,
+              fontSize: 21,
+              font: 'sans-serif',
+              text: 'ク  エ  ス  ト  達  成  ！'
+            })
+        $canvas.setLayer('cleartext', {
+            x: ($canvas.width() - $canvas.measureText('cleartext').width) / 2
+          })
         $canvas
         .animateLayer('progtext', {
             y: -37
           });
         $canvas
         .animateLayer('cleartext', {
-            y: 13
-          }, function(){
-            $canvas.parent().fadeOut("slow");
+            y: 10
           });
+        $canvas
+        .animateLayerGroup('shareButton', {
+            y: '-=50'
+          });
+        $canvas
+          .animateLayer('bar', {
+              fillStyle: '#0090DD'
+            });
+
       });
       <% end %>
 
