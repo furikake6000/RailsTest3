@@ -4,6 +4,9 @@ class QuestsController < ApplicationController
 
   def show
     @user = current_user
+    if @user.nil?
+      redirect_to root_path
+    end
     @client = client_new
     @quests = @user.quests.all
     @progresses = {}
