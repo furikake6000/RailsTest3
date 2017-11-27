@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'users/show'
+
   root 'static_pages#home'
 
   get '/auth/twitter/callback', to:'twitter_sessions#create'

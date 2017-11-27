@@ -7,7 +7,7 @@ class StaticPagesController < ApplicationController
       @quests.each do |q|
         @progresses[q.id] = get_progress(q, current_user, @client)
       end
-      render 'quests/show'
+      render 'users/show'
       return
     end
   end
