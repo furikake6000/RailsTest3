@@ -1,10 +1,13 @@
 class StaticPagesController < ApplicationController
   def home
     if logged_in?
-      @client = client_new
-      @tweets = @client.home_timeline
-      @followings = @client.friend_ids
-      render 'twitter_sessions/create'
+      @client ||= client_new
+      @quests = current_user.quests.all
+      @progresses = {}
+      @quests.each do |q|
+        @progresses[q.id] = get_progress(q, current_user, @client)
+      end
+      render 'quests/show'
       return
     end
   end
