@@ -47,9 +47,7 @@ module QuestsHelper
       when "followed_by_n_user" then
         count = 0.0
         @followers ||= client.follower_ids({count: 20})
-        print(quest.last_following)
         @followers.each do |follower|
-          print(follower.to_s)
           break if follower.to_s == quest.last_following
           count += 1.0
         end
