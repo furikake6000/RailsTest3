@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124060001) do
+ActiveRecord::Schema.define(version: 20171127154556) do
 
   create_table "quests", force: :cascade do |t|
     t.string "questtype"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20171124060001) do
     t.string "twid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "score", default: 0
   end
 
 end
