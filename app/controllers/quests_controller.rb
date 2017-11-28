@@ -9,8 +9,9 @@ class QuestsController < ApplicationController
     @client ||= client_new
     @quests = current_user.quests.all
     @progresses = {}
+    @cache = {}
     @quests.each do |q|
-      @progresses[q.id] = get_progress(q, current_user, @client)
+      @progresses[q.id] = q.get_progress(current_user, @client, @cache)
     end
   end
 

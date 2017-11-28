@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 20171127154556) do
 
   create_table "quests", force: :cascade do |t|
-    t.string "questtype"
+    t.string "type"
     t.string "last_follower"
     t.string "last_following"
     t.datetime "created_at", null: false

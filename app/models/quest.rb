@@ -24,7 +24,7 @@ class Quest < ApplicationRecord
       "FollowedByNUsers"
     ]
     quest = user.quests.build(
-      type: questtypes.sample
+      type: questtypes.sample,
       last_following: @last_following,
       last_follower: @last_follower,
       last_tweet: @last_tweet,
@@ -33,11 +33,10 @@ class Quest < ApplicationRecord
     quest.save
     return quest
   end
-
 end
 
 class FollowUserStartsWithX < Quest
-  validates: target, presense: true
+  validates :target, presence: true
 
   def initialize
     target = ('あ'..'ん').to_a.shuffle.first
@@ -48,17 +47,18 @@ class FollowUserStartsWithX < Quest
   end
 
   def get_progress(user, client, cache)
+    return @progress if !@progress.nil?
     cache[friend] ||= client.friend_ids({count: 20})
     cache[friend].each do |friend|
       break if friend.to_s == quest.last_following
-      return 1.0 if client.user(friend).name.start_with?(target)
+      return @progress = 1.0 if client.user(friend).name.start_with?(target)
     end
-    return 0.0
+    return @progress = 0.0
   end
 end
 class FollowNUsersContainX < Quest
-  validates: target, presense: true
-  validates: value, presense:true
+  validates :target, presence: true
+  validates :value, presence: true
 
   def initialize
     target = ('あ'..'ん').to_a.shuffle.first
@@ -70,16 +70,17 @@ class FollowNUsersContainX < Quest
   end
 
   def get_progress(user, client, cache)
+    return @progress if !@progress.nil?
     cache[friend] ||= client.friend_ids({count: 20})
     cache[friend].each do |friend|
       break if friend.to_s == last_following
       count += 1.0 if client.user(friend).name.include?(target)
     end
-    return count / value
+    return @progress = count / value
   end
 end
 class FollowNUsers < Quest
-  validates: value, presense: true
+  validates :value, presence: true
 
   def initialize
     value = @@random.rand(1..3)
@@ -90,16 +91,17 @@ class FollowNUsers < Quest
   end
 
   def get_progress(user, client, cache)
+    return @progress if !@progress.nil?
     cache[friend] ||= client.friend_ids({count: 20})
     cache[friend].each do |friend|
       break if friend.to_s == last_following
       count += 1.0
     end
-    return 0.0
+    return @progress = count/value
   end
 end
 class RetweetStartsWithX < Quest
-  validates: target, presense: true
+  validates :target, presence: true
 
   def initialize
     target = ('あ'..'ん').to_a.shuffle.first
@@ -110,15 +112,16 @@ class RetweetStartsWithX < Quest
   end
 
   def get_progress(user, client, cache)
+    return @progress if @progress.nil?
     cache[retweet] ||= client.retweeted_by_me({count: 30, since_id: quest.last_retweet})
     cache[retweet].each do |tweet|
-      return 1.0 if tweet.text.start_with?(target)
+      return @progress = 1.0 if tweet.text.start_with?(target)
     end
-    return 0.0
+    return @progress = 0.0
   end
 end
 class RetweetNTimes < Quest
-  validates: value, presense: true
+  validates :value, presence: true
 
   def initialize
     value = @@random.rand(3..10)
@@ -129,12 +132,13 @@ class RetweetNTimes < Quest
   end
 
   def get_progress(user, client, cache)
+    return @progress if @progress.nil?
     cache[retweet] ||= client.retweeted_by_me({count: 30, since_id: last_retweet})
-    return cache[retweet].size.to_f / value
+    return @progress = cache[retweet].size.to_f / value
   end
 end
 class TweetNTimes < Quest
-  validates: value, presence: true
+  validates :value, presence: true
 
   def initialize
     value = @@random.rand(3..10)
@@ -150,7 +154,7 @@ class TweetNTimes < Quest
   end
 end
 class TweetStartsWithX < Quest
-  validates: target, presence: true
+  validates :target, presence: true
 
   def initialize
     target = ('あ'..'ん').to_a.shuffle.first
@@ -169,7 +173,7 @@ class TweetStartsWithX < Quest
   end
 end
 class FollowedByNUsers < Quest
-  validates: value, presence: true
+  validates :value, presence: true
 
   def initialize
     value = @@random.rand(1..5)
