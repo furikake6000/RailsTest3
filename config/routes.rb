@@ -14,4 +14,6 @@ Rails.application.routes.draw do
 
   get '/sandbox', to:'static_pages#sandbox'
 
+  post '/senddm', to:'users#senddm'
+
 end

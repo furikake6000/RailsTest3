@@ -1,2 +1,7 @@
 <h1>Users#show</h1>
 <p>Find me in app/views/users/show.html.erb</p>
+
+<%= form_tag({:controller => 'users', :action => 'senddm'}, :remote => true, :class => 'senddm-ajax') do -%>
+<%= hidden_field_tag :ajax_tag, 'senddm' -%>
+<%= submit_tag('Send dm', :class => 'btn btn-primary btn-sm') -%>
+<% end %>
