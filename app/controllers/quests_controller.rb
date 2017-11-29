@@ -12,7 +12,7 @@ class QuestsController < ApplicationController
     @cache = {}
     @quests.each do |q|
       #@progresses[q.id] = q.get_progress(current_user, @client, @cache)
-      @progresses[q.id] = 0.0
+      @progresses[q.id] = q.get_progress(current_user, @client, @cache)
     end
   end
 

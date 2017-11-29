@@ -34,7 +34,9 @@ module TwitterSessionsHelper
       @client ||= client_new
       #初期に5件のQuestを生成
       5.times do
-        Quest.generate_new(user, @client)
+        q = Quest.generate_new(user, @client)
+        flash[:danger] = "something wrong with creating quests..." if q.nil?
       end
+      flash[:success] = "User successfully made."
     end
 end

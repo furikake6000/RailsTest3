@@ -4,13 +4,17 @@ class Quest < ApplicationRecord
   validates :user_id, presence:true
   validates :type, presence:true
 
-  def generate_new(user, client)
+  def Quest.generate_new(user, client)
     @@random = Random.new
 
-    @last_following ||= client.friend_ids({count: 1}).first.to_s
-    @last_follower ||= client.follower_ids({count: 1}).first.to_s
-    @last_tweet ||= client.user_timeline({user_id: user.twid, count: 1}).first.id.to_s
-    @last_retweet ||= client.retweeted_by_me({count: 1}).first.id.to_s
+    begin
+      @last_following ||= client.friend_ids({count: 1}).first.to_s
+      @last_follower ||= client.follower_ids({count: 1}).first.to_s
+      @last_tweet ||= client.user_timeline({user_id: user.twid, count: 1}).first.id.to_s
+      @last_retweet ||= client.retweeted_by_me({count: 1}).first.id.to_s
+    rescue Twitter::Error::TooManyRequests
+      return nil
+    end
 
     #生成して情報格納
     questtypes = Array[
@@ -30,8 +34,16 @@ class Quest < ApplicationRecord
       last_tweet: @last_tweet,
       last_retweet: @last_retweet
     )
-    save
+    quest.save
     return quest
+  end
+
+  def get_progress_debug(user, client, cache)
+    begin
+      get_progress
+    rescue Twitter::Error::TooManyRequests
+      return -1.0
+    end
   end
 end
 
@@ -48,13 +60,14 @@ class FollowUserStartsWithX < Quest
   end
 
   def get_progress(user, client, cache)
-    return @progress if !@progress.nil?
-    cache[:friend] ||= client.friend_ids({count: 20})
-    cache[:friend].each do |friend|
-      break if friend.to_s == last_following
-      return @progress = 1.0 if client.user(friend).name.start_with?(target)
+    cache[:friend] ||= client.friend_ids({user_id: user.twid})
+    cache[:friend].each_slice(10).each do |slice|
+      slice.each do |friend|
+        return 0.0 if friend.to_s == last_following
+        return 1.0 if client.user(friend).name.start_with?(target)
+      end
     end
-    return @progress = 0.0
+    return 0.0
   end
 end
 class FollowNUsersContainX < Quest
@@ -72,13 +85,16 @@ class FollowNUsersContainX < Quest
   end
 
   def get_progress(user, client, cache)
-    return @progress if !@progress.nil?
-    cache[:friend] ||= client.friend_ids({count: 20})
-    cache[:friend].each do |friend|
-      break if friend.to_s == last_following
-      count += 1.0 if client.user(friend).name.include?(target)
+    count = 0.0
+    cache[:friend] ||= client.friend_ids({user_id: user.twid})
+    cache[:friend].each_slice(10).each do |slice|
+      slice.each do |friend|
+        print(friend.to_s + " == " + last_following + " : " + (friend.to_s == last_following).to_s)
+        return count / value if friend.to_s == last_following
+        count += 1.0 if client.user(friend).name.include?(target)
+      end
     end
-    return @progress = count / value
+    return count / value
   end
 end
 class FollowNUsers < Quest
@@ -94,13 +110,15 @@ class FollowNUsers < Quest
   end
 
   def get_progress(user, client, cache)
-    return @progress if !@progress.nil?
-    cache[:friend] ||= client.friend_ids({count: 20})
-    cache[:friend].each do |friend|
-      break if friend.to_s == last_following
-      count += 1.0
+    count = 0.0
+    cache[:friend] ||= client.friend_ids({user_id: user.twid})
+    cache[:friend].each_slice(10).each do |slice|
+      slice.each do |friend|
+        return count / value if friend.to_s == last_following
+        count += 1.0
+      end
     end
-    return @progress = count/value
+    return count/value
   end
 end
 class RetweetStartsWithX < Quest
@@ -116,12 +134,11 @@ class RetweetStartsWithX < Quest
   end
 
   def get_progress(user, client, cache)
-    return @progress if @progress.nil?
     cache[:retweet] ||= client.retweeted_by_me({count: 30, since_id: last_retweet})
     cache[:retweet].each do |tweet|
-      return @progress = 1.0 if tweet.text.start_with?(target)
+      return 1.0 if tweet.text.start_with?(target)
     end
-    return @progress = 0.0
+    return 0.0
   end
 end
 class RetweetNTimes < Quest
@@ -137,9 +154,8 @@ class RetweetNTimes < Quest
   end
 
   def get_progress(user, client, cache)
-    return @progress if @progress.nil?
     cache[:retweet] ||= client.retweeted_by_me({count: 30, since_id: last_retweet})
-    return @progress = cache[:retweet].size.to_f / value
+    return cache[:retweet].size.to_f / value
   end
 end
 class TweetNTimes < Quest
@@ -193,11 +209,12 @@ class FollowedByNUsers < Quest
 
   def get_progress(user, client, cache)
     count = 0.0
-    cache[:follower] ||= client.follower_ids({count: 20})
-    cache[:follower].each do |follower|
-      break if follower.to_s == last_following
-      count += 1.0
+    cache[:follower] ||= client.follower_ids({user_id: user.twid})
+    cache[:follower].each_slice(10).each do |slice|
+      slice.each do |follower|
+        return count / value if follower.to_s == last_follower
+        count += 1.0
+      end
     end
-    return count / value
   end
 end
