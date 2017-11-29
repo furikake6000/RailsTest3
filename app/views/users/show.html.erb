@@ -4,4 +4,7 @@
 <%= form_tag({:controller => 'users', :action => 'senddm'}, :remote => true, :class => 'senddm-ajax') do -%>
 <%= hidden_field_tag :ajax_tag, 'senddm' -%>
 <%= submit_tag('Send dm', :class => 'btn btn-primary btn-sm') -%>
+
+<% icon_path = @user_tw_account.profile_image_url.to_s.sub(/(.*)_normal/){$1} %>
+<%= image_tag(icon_path, size: "64x64" , alt: @user_tw_account.name) %>
 <% end %>

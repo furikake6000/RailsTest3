@@ -1,8 +1,6 @@
 class UsersController < ApplicationController
   def show
-    @client = client_new
-    @user = current_user
-    @user_tw_account = @client.user(current_user.twid.to_i)
+    render_users/show
   end
 
   def senddm

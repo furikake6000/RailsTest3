@@ -4,4 +4,5 @@ class ApplicationController < ActionController::Base
   include TwitterSessionsHelper
   #Questsに関するヘルパーは(ry
   include QuestsHelper
+  include UsersHelper
 end
