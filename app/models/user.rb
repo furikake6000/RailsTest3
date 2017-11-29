@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   validates :twid, presence: true
 
-  has_many :quests
+  has_many :quests, dependent: :destroy
 
   def User.find_or_create_from_auth(auth)
     twid = auth[:uid]
