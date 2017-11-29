@@ -2,4 +2,4 @@
 
 <%= javascript_include_tag 'quest_show' %>
 
-<%= render @quests %>
+<%= render partial: 'quests/quest', collection: @quests, as: :quest %>
