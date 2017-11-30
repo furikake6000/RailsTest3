@@ -3,7 +3,7 @@
     $( function(){
       var $canvas = $(".progressbar-<%= quest.id %>");
       $canvas.attr('width', $canvas.parent().width())
-      $canvas
+      /*$canvas
       .drawText({
           fillStyle: '#FFF449',
           layer:'true',
@@ -19,10 +19,10 @@
       $canvas
       .animateLayer('bar', {
           width: <%= @progresses[quest.id] %> * $canvas.width()
-        });
+        });*/
 
       <% if @progresses[quest.id] >= 1.0 %>
-      $canvas
+      /*$canvas
       .animateLayer('bar', {
           fillStyle: '#00C9FF'
         });
@@ -75,7 +75,7 @@
           });
         $canvas.animateLayer('bar', {
               fillStyle: '#0090DD'
-          });
+          });*/
         $.ajax({
           type: "DELETE",
           url: "quests/destroy",
