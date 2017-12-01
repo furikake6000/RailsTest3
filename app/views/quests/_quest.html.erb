@@ -3,88 +3,21 @@
     $( function(){
       var $canvas = $(".progressbar-<%= quest.id %>");
       $canvas.attr('width', $canvas.parent().width())
-      $canvas
-      .drawText({
-          fillStyle: '#FFF449',
-          layer:'true',
-          name: 'progtext',
-          x: $canvas.width() - 200, y: 13,
-          fontSize: 21,
-          font: 'sans-serif',
-          text: '<%= (quest.get_progress(current_user, @client, @cache) * 100).to_i %>%達成中'
-        });
-      $canvas.setLayer('progtext', {
-          x: $canvas.width() - $canvas.measureText('progtext').width - 30
-        });
-      $canvas
-      .animateLayer('bar', {
-          width: <%= quest.get_progress(current_user, @client, @cache) %> * $canvas.width()
-        });
 
       <% if quest.get_progress(current_user, @client, @cache) >= 1.0 %>
-      $canvas
-      .animateLayer('bar', {
-          fillStyle: '#00C9FF'
-        });
-        $canvas
-        .drawRect({
-            layer: true,
-            groups: ['shareButton'],
-            fillStyle: '#0076FF',
-            shadowColor: '#333',
-            shadowBlur: 5,
-            x: $canvas.width() - 100, y: 57.5,
-            width: 80,
-            height: 25,
-            click: function(layer){
-              window.open('https://twitter.com/share?text=クエスト: <%= quest.to_s %> をクリアしました！&hashtags=デイリークエスったー', '_blank');
-            }
-          });
-        $canvas
-        .drawText({
-            fillStyle: '#FFF',
-            layer:'true',
-            groups: ['shareButton'],
-            x: $canvas.width() - 80, y: 63,
-            fontSize: 16,
-            font: 'sans-serif',
-            text: '共有'
-          });
-      $canvas.parent().on('click', function(){
-        $canvas
-          .drawText({
-              fillStyle: '#FFF449',
-              layer:'true',
-              name: 'cleartext',
-              x: 0, y: 60,
-              fontSize: 21,
-              font: 'sans-serif',
-              text: 'ク  エ  ス  ト  達  成  ！'
-            })
-        $canvas.setLayer('cleartext', {
-            x: ($canvas.width() - $canvas.measureText('cleartext').width) / 2
-          })
-        $canvas.animateLayer('progtext', {
-            y: -37
-          });
-        $canvas.animateLayer('cleartext', {
-            y: 10
-          });
-        $canvas.animateLayerGroup('shareButton', {
-            y: '-=50'
-          });
-        $canvas.animateLayer('bar', {
-              fillStyle: '#0090DD'
-          });
-        $.ajax({
-          type: "DELETE",
-          url: "quests/destroy",
-          data: {
-            "id": "<%= quest.id %>",
-            "authenticity_token": "<%= form_authenticity_token %>"
-          }
-        })
-      });
+      $.ajax({
+        type: "DELETE",
+        url: "quests/destroy",
+        data: {
+          "id": "<%= quest.id %>",
+          "authenticity_token": "<%= form_authenticity_token %>"
+        }
+      })
+      $canvas.setLayer('shareButtonBase', {
+        click: function(layer){
+          window.open('https://twitter.com/share?text=クエスト: <%= quest.to_s %> をクリアしました！&hashtags=デイリークエスったー', '_blank');
+        }
+      })
       <% end %>
 
       setInterval( function(){
@@ -96,6 +29,6 @@
   <div class="content content-<%= quest.id %>">
     <%= p quest.to_s %>
   </div>
-  <canvas class="progressbar progressbar-<%= quest.id %>" width="420" height="40"></canvas>
+  <canvas class="progressbar progressbar-<%= quest.id %>" data-progress="<%= quest.get_progress(current_user, @client, @cache) %>" width="420" height="40"></canvas>
   <div class="limit limit-<%= quest.id %>">残り 00:00:00</div>
 </div>

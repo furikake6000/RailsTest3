@@ -12,6 +12,7 @@ function limitdate (limitstr){
 $( function(){
   $(".progressbar").each(function () {
     $(this).attr('width', $(this).parent().width())
+    //進捗バー背景
     $(this)
     .drawRect({
         layer: true,
@@ -23,6 +24,7 @@ $( function(){
         height: 30,
         mask: true
       });
+    //進捗バー本体（t=0においては横幅0）
     $(this)
     .drawRect({
         layer: true,
@@ -35,5 +37,80 @@ $( function(){
         width: 0,
         height: 30
       });
+    //進捗バーが伸びるアニメーション
+    $(this).animateLayer('bar', {
+        width: $(this).data('progress') * $(this).width()
+      });
+    //「○○%」の文字
+    $(this).drawText({
+        fillStyle: '#FFF449',
+        layer:'true',
+        name: 'progtext',
+        x: $(this).width() - 200, y: 13,
+        fontSize: 21,
+        font: 'sans-serif',
+        text: Math.floor($(this).data('progress') * 100) + '%達成中'
+      });
+    $(this).setLayer('progtext', {
+        x: $(this).width() - $(this).measureText('progtext').width - 30
+      });
+
+    if($(this).data('progress') >= 1.0){
+      //完了時のアクション
+      //色変え
+      $(this).animateLayer('bar', {
+          fillStyle: '#00C9FF'
+        });
+      //共有ボタン
+      $(this).drawRect({
+          layer: true,
+          name: 'shareButtonBase',
+          groups: ['shareButton'],
+          fillStyle: '#0076FF',
+          shadowColor: '#333',
+          shadowBlur: 5,
+          x: $(this).width() - 100, y: 57.5,
+          width: 80,
+          height: 25
+        });
+      $(this).drawText({
+          fillStyle: '#FFF',
+          layer:'true',
+          groups: ['shareButton'],
+          x: $(this).width() - 80, y: 63,
+          fontSize: 16,
+          font: 'sans-serif',
+          text: '共有'
+        });
+
+      //クリック時の処理
+      $(this).parent().on('click', function(){
+        $(this)
+          .drawText({
+              fillStyle: '#FFF449',
+              layer:'true',
+              name: 'cleartext',
+              x: 0, y: 60,
+              fontSize: 21,
+              font: 'sans-serif',
+              text: 'ク  エ  ス  ト  達  成  ！'
+            })
+        $(this).setLayer('cleartext', {
+            x: ($(this).width() - $(this).measureText('cleartext').width) / 2
+          })
+        $(this).animateLayer('progtext', {
+            y: -37
+          });
+        $(this).animateLayer('cleartext', {
+            y: 10
+          });
+        $(this).animateLayerGroup('shareButton', {
+            y: '-=50'
+          });
+        $(this).animateLayer('bar', {
+              fillStyle: '#0090DD'
+          });
+      });
+    }
   })
 });
