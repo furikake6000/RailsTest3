@@ -11,17 +11,17 @@
           x: $canvas.width() - 200, y: 13,
           fontSize: 21,
           font: 'sans-serif',
-          text: '<%= (@progresses[quest.id] * 100).to_i %>%達成中'
+          text: '<%= (q.get_progress(current_user, @client, @cache) * 100).to_i %>%達成中'
         });
       $canvas.setLayer('progtext', {
           x: $canvas.width() - $canvas.measureText('progtext').width - 30
         });
       $canvas
       .animateLayer('bar', {
-          width: <%= @progresses[quest.id] %> * $canvas.width()
+          width: <%= q.get_progress(current_user, @client, @cache) %> * $canvas.width()
         });
 
-      <% if @progresses[quest.id] >= 1.0 %>
+      <% if q.get_progress(current_user, @client, @cache) >= 1.0 %>
       $canvas
       .animateLayer('bar', {
           fillStyle: '#00C9FF'
