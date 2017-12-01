@@ -10,10 +10,6 @@ class QuestsController < ApplicationController
     @quests = current_user.quests.all
     @progresses = {}
     @cache = {}
-    @quests.each do |q|
-      #@progresses[q.id] = q.get_progress(current_user, @client, @cache)
-      @progresses[q.id] = q.get_progress(current_user, @client, @cache)
-    end
   end
 
   def destroy

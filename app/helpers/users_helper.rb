@@ -4,6 +4,7 @@ module UsersHelper
     @user = current_user
     @user_tw_account = @client.user(current_user.twid.to_i)
     @quests = @user.quests.all
+    @cache = {}
     render 'users/show'
   end
 end
