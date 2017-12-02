@@ -16,6 +16,7 @@ $( function(){
     $(this)
     .drawRect({
         layer: true,
+        name: 'barback',
         fillStyle: '#000',
         shadowColor: '#333',
         shadowBlur: 5,
@@ -105,12 +106,49 @@ $( function(){
             y: 10
           });
         $(this).animateLayerGroup('shareButton', {
-            y: '-=50'
+            y: '7.5'
           });
         $(this).animateLayer('bar', {
               fillStyle: '#0090DD'
           });
       });
     }
+
+    if($(this).data('progress') < 0.0){
+      //エラー時の処理
+      //色変え
+      $(this).animateLayer('barback', {
+          fillStyle: '#FF522C'
+        });
+      $(this).setLayer('progtext', {
+          text: "API制限エラー:15分ほどしてから再びお試しください。"
+        });
+      $(this).setLayer('progtext', {
+          x: ($(this).width() - $(this).measureText('progtext').width) / 2
+        });
+    }
+  })
+});
+
+$(window).resize(function() {
+  $(".progressbar").each(function () {
+    //リサイズ時の動作
+    $(this).attr('width', $(this).parent().width())
+    //進捗バー背景
+    $(this).setLayer('barback', {
+        width: $(this).width() - 20
+      }).drawLayers();
+    //進捗バー本体
+    $(this).setLayer('bar', {
+        width: $(this).data('progress') * $(this).width()
+      }).drawLayers();
+    //「○○%」の文字
+    $(this).setLayer('progtext', {
+        x: $(this).width() - $(this).measureText('progtext').width - 30
+      }).drawLayers();
+
+    $(this).setLayer('cleartext', {
+        x: ($(this).width() - $(this).measureText('cleartext').width) / 2
+      })
   })
 });
