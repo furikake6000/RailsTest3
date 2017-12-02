@@ -40,7 +40,9 @@ class Quest < ApplicationRecord
 
   def get_progress_debug(user, client, cache)
     begin
-      get_progress
+      p = get_progress(user, client, cache)
+      p ||= 0.0
+      return p
     rescue Twitter::Error::TooManyRequests
       return -1.0
     end
@@ -216,5 +218,6 @@ class FollowedByNUsers < Quest
         count += 1.0
       end
     end
+    return count / value
   end
 end
