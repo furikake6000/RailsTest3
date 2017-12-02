@@ -1,4 +1,4 @@
-<div class="post">
+<div class="card quest quest-<%= quest.id %>">
   <script type="text/javascript">
     $( function(){
       var $canvas = $(".progressbar-<%= quest.id %>");
@@ -26,9 +26,9 @@
     });
 
   </script>
-  <div class="content content-<%= quest.id %>">
-    <%= p quest.to_s %>
+  <div class="card-body">
+    <h4><%= p quest.to_s %></h4>
+    <canvas class="progressbar progressbar-<%= quest.id %>" data-progress="<%= quest.get_progress_debug(current_user, @client, @cache) %>" width="420" height="40"></canvas>
+    <div class="limit limit-<%= quest.id %>">残り 00:00:00</div>
   </div>
-  <canvas class="progressbar progressbar-<%= quest.id %>" data-progress="<%= quest.get_progress_debug(current_user, @client, @cache) %>" width="420" height="40"></canvas>
-  <div class="limit limit-<%= quest.id %>">残り 00:00:00</div>
 </div>
