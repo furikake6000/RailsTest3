@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def show
-    render_users/show
+    render_users_show
   end
 
   def senddm
