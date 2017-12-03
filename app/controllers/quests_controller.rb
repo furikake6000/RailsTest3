@@ -12,27 +12,17 @@ class QuestsController < ApplicationController
     @cache = {}
   end
 
-  def clear
-    targetquest = current_user.quests.find_by(id: params[:id])
-    if !targetquest.nil?
-      #進捗の再確認
-      @client ||= client_new
-      @cache ||= {}
-      if targetquest.get_progress_debug(current_user, @client, @cache) >= 1.0
-        #スコアの加算
-        current_user.score += targetquest.get_score
-        
-        targetquest.destroy
-        Quest.generate_new(current_user, @client)
-      end
-    end
-  end
-
   def destroy
     targetquest = current_user.quests.find_by(id: params[:id])
     if !targetquest.nil?
-      targetquest.destroy
+      #進捗の確認
       @client ||= client_new
+      @cache ||= {}
+      if params[:phase] == "questclear" && targetquest.get_progress_debug(current_user, @client, @cache) >= 1.0
+        #クエストクリアしてたらスコアの加算
+        current_user.score += targetquest.get_score
+      end
+      targetquest.destroy
       Quest.generate_new(current_user, @client)
     end
   end

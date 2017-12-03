@@ -154,7 +154,7 @@ class RetweetStartsWithX < Quest
   def get_progress(user, client, cache)
     cache[:retweet] ||= client.retweeted_by_me({count: 30, since_id: last_retweet})
     cache[:retweet].each do |tweet|
-      return 1.0 if tweet.text.start_with?(target)
+      return 1.0 if tweet.text.split[2].start_with?(target)
     end
     return 0.0
   end

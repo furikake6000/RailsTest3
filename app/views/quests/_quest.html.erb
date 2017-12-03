@@ -5,14 +5,17 @@
       $canvas.attr('width', $canvas.parent().width())
 
       <% if quest.get_progress_debug(current_user, @client, @cache) >= 1.0 %>
-      $.ajax({
-        type: "DELETE",
-        url: "quests/destroy",
-        data: {
-          "id": "<%= quest.id %>",
-          "authenticity_token": "<%= form_authenticity_token %>"
-        }
-      })
+      $canvas.parent().on('click', function(){
+        $.ajax({
+          type: "DELETE",
+          url: "quests/destroy",
+          data: {
+            "id": "<%= quest.id %>",
+            "phase": "questclear",
+            "authenticity_token": "<%= form_authenticity_token %>"
+          }
+        })
+      }
       $canvas.setLayer('shareButtonBase', {
         click: function(layer){
           window.open('https://twitter.com/share?text=クエスト: <%= quest.to_s %> をクリアしました！&hashtags=デイリークエスったー', '_blank');
