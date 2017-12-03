@@ -47,6 +47,10 @@ class Quest < ApplicationRecord
       return -1.0
     end
   end
+
+  def get_score
+    return 100
+  end
 end
 
 class FollowUserStartsWithX < Quest
@@ -70,6 +74,10 @@ class FollowUserStartsWithX < Quest
       end
     end
     return 0.0
+  end
+
+  def get_score
+    return 220
   end
 end
 class FollowNUsersContainX < Quest
@@ -98,6 +106,10 @@ class FollowNUsersContainX < Quest
     end
     return count / value
   end
+
+  def get_score
+    return 105 * value
+  end
 end
 class FollowNUsers < Quest
   validates :value, presence: true
@@ -122,6 +134,10 @@ class FollowNUsers < Quest
     end
     return count/value
   end
+
+  def get_score
+    return 80 * value
+  end
 end
 class RetweetStartsWithX < Quest
   validates :target, presence: true
@@ -142,6 +158,10 @@ class RetweetStartsWithX < Quest
     end
     return 0.0
   end
+
+  def get_score
+    return 55
+  end
 end
 class RetweetNTimes < Quest
   validates :value, presence: true
@@ -159,6 +179,10 @@ class RetweetNTimes < Quest
     cache[:retweet] ||= client.retweeted_by_me({count: 30, since_id: last_retweet})
     return cache[:retweet].size.to_f / value
   end
+
+  def get_score
+    return 75 * value
+  end
 end
 class TweetNTimes < Quest
   validates :value, presence: true
@@ -175,6 +199,10 @@ class TweetNTimes < Quest
   def get_progress(user, client, cache)
     cache[:tweet] ||= client.user_timeline({user_id: user.twid, count: 30, since_id: last_tweet})
     return cache[:tweet].size.to_f / value
+  end
+
+  def get_score
+    return 65 * value
   end
 end
 class TweetStartsWithX < Quest
@@ -195,6 +223,10 @@ class TweetStartsWithX < Quest
       return 1.0 if tweet.text.start_with?(target)
     end
     return 0.0
+  end
+
+  def get_score
+    return 125
   end
 end
 class FollowedByNUsers < Quest
@@ -219,5 +251,9 @@ class FollowedByNUsers < Quest
       end
     end
     return count / value
+  end
+
+  def get_score
+    return 235 * value
   end
 end
