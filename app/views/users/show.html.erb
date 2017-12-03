@@ -1,20 +1,25 @@
 <%= javascript_include_tag 'quest_show' %>
 
-<div class="col-9">
-  <div class="media">
-    <% icon_path = @user_tw_account.profile_image_url.to_s.sub(/(.*)_normal/){$1} %>
-    <%= image_tag(icon_path, size: "128x128" , alt: @user_tw_account.name, class: "mr-3") %>
-    <div class="media-body">
-      <h2 class="mt-0"><%= @user_tw_account.name %></h2>
-      <p>Score: <%= @user.score %></p>
+<div class="row">
+  <div class="col-md-9">
+    <div class="media">
+      <% icon_path = @user_tw_account.profile_image_url.to_s.sub(/(.*)_normal/){$1} %>
+      <%= image_tag(icon_path, size: "128x128" , alt: @user_tw_account.name, class: "mr-3") %>
+      <div class="media-body">
+        <h2 class="mt-0"><%= @user_tw_account.name %></h2>
+        <p>Score: <%= @user.score %></p>
 
-      <%= form_tag({:controller => 'users', :action => 'senddm'}, :remote => true, :class => 'senddm-ajax') do -%>
-      <%= hidden_field_tag :ajax_tag, 'senddm' -%>
-      <%= submit_tag('Send dm', :class => 'btn btn-primary btn-sm') -%>
+        <%= form_tag({:controller => 'users', :action => 'senddm'}, :remote => true, :class => 'senddm-ajax') do -%>
+        <%= hidden_field_tag :ajax_tag, 'senddm' -%>
+        <%= submit_tag('Send dm', :class => 'btn btn-primary btn-sm') -%>
 
-      <% end %>
+        <% end %>
+      </div>
     </div>
-  </div>
 
-  <%= render partial: 'quests/quest', collection: @quests, as: :quest %>
+    <%= render partial: 'quests/quest', collection: @quests, as: :quest %>
+  </div>
+  <div class="col-md-3">
+    <%= render partial: 'users/ranking' %>
+  </div>
 </div>
