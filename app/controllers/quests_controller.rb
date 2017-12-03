@@ -18,10 +18,10 @@ class QuestsController < ApplicationController
       #進捗の確認
       @client ||= client_new
       @cache ||= {}
-      print(params)
-      if params[:phase] == "questclear"
+      if params[:phase] == "questclear" && targetquest.get_progress_debug(current_user, @client, @cache) >= 1.0
         #クエストクリアしてたらスコアの加算
         current_user.score += targetquest.get_score
+        current_user.save
       end
       targetquest.destroy
       Quest.generate_new(current_user, @client)
