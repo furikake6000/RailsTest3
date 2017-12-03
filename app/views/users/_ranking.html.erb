@@ -1,1 +1,16 @@
 <h3>Ranking</h3>
+
+<% @ranking.each do |ranker| %>
+
+<% rankeraccount = @client.user(ranker.twid.to_i) %>
+
+<div class="media">
+  <% icon_path = rankeraccount.profile_image_url.to_s.sub(/(.*)_normal/){$1} %>
+  <%= image_tag(icon_path, size: "64x64" , alt: @user_tw_account.name, class: "mr-3 rounded-circle") %>
+  <div class="media-body">
+    <h5 class="mt-0"><%= rankeraccount.name %></h5>
+    <p>Score: <%= @user.score %></p>
+  </div>
+</div>
+
+<% end %>
