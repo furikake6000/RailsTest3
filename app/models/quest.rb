@@ -3,36 +3,39 @@ class Quest < ApplicationRecord
   belongs_to :user
   validates :user_id, presence:true
   validates :type, presence:true
+  validates :target, presence:true
+  validates :last_tweet, presence:true
+
+  def initialize(attributes={})
+    super
+    target = pickAWord
+  end
 
   def Quest.generate_new(user, client)
     @@random = Random.new
 
     begin
-      @last_following ||= client.friend_ids({count: 1}).first.to_s
-      @last_follower ||= client.follower_ids({count: 1}).first.to_s
+      #@last_following ||= client.friend_ids({count: 1}).first.to_s
+      #@last_follower ||= client.follower_ids({count: 1}).first.to_s
       @last_tweet ||= client.user_timeline({user_id: user.twid, count: 1}).first.id.to_s
-      @last_retweet ||= client.retweeted_by_me({count: 1}).first.id.to_s
+      #@last_retweet ||= client.retweeted_by_me({count: 1}).first.id.to_s
     rescue Twitter::Error::TooManyRequests
       return nil
     end
 
     #生成して情報格納
     questtypes = Array[
-      "FollowUserStartsWithX",
-      "FollowNUsersContainX",
-      "FollowNUsers",
-      "RetweetStartsWithX",
-      "RetweetNTimes",
-      "TweetNTimes",
       "TweetStartsWithX",
-      "FollowedByNUsers"
+      "TweetContainsX",
+      "ReplyStartsWithX",
+      "ReplyContainsX"
     ]
     quest = user.quests.build(
       type: questtypes.sample,
-      last_following: @last_following,
-      last_follower: @last_follower,
+      #last_following: @last_following,
+      #last_follower: @last_follower,
       last_tweet: @last_tweet,
-      last_retweet: @last_retweet
+      #last_retweet: @last_retweet
     )
     quest.save
     return quest
@@ -50,6 +53,75 @@ class Quest < ApplicationRecord
 
   def get_score
     return 100
+  end
+end
+
+class TweetStartsWithX < Quest
+  def to_s
+    "「" + target + "」 から始まるツイートをしよう！"
+  end
+
+  def get_progress(user, client, cache)
+    cache[:tweet] ||= client.user_timeline({user_id: user.twid, count: 30, since_id: last_tweet})
+    cache[:tweet].each do |tweet|
+      return 1.0 if tweet.text.start_with?(target)
+    end
+    return 0.0
+  end
+
+  def get_score
+    return target.length * 50
+  end
+end
+class TweetStartsWithX < Quest
+  def to_s
+    "「" + target + "」 を含むツイートをしよう！"
+  end
+
+  def get_progress(user, client, cache)
+    cache[:tweet] ||= client.user_timeline({user_id: user.twid, count: 30, since_id: last_tweet})
+    cache[:tweet].each do |tweet|
+      return 1.0 if tweet.text.include?(target)
+    end
+    return 0.0
+  end
+
+  def get_score
+    return target.length * 36
+  end
+end
+class ReplyStartsWithX < Quest
+  def to_s
+    "「" + target + "」 から始まるリプライをしよう！"
+  end
+
+  def get_progress(user, client, cache)
+    cache[:tweet] ||= client.user_timeline({user_id: user.twid, count: 30, since_id: last_tweet})
+    cache[:tweet].each do |tweet|
+      return 1.0 if tweet.text.start_with?(target)
+    end
+    return 0.0
+  end
+
+  def get_score
+    return target.length * 108
+  end
+end
+class ReplyStartsWithX < Quest
+  def to_s
+    "「" + target + "」 を含んだリプライをしよう！"
+  end
+
+  def get_progress(user, client, cache)
+    cache[:tweet] ||= client.user_timeline({user_id: user.twid, count: 30, since_id: last_tweet})
+    cache[:tweet].each do |tweet|
+      return 1.0 if tweet.text.include?(target)
+    end
+    return 0.0
+  end
+
+  def get_score
+    return target.length * 84
   end
 end
 
@@ -203,30 +275,6 @@ class TweetNTimes < Quest
 
   def get_score
     return 65 * value
-  end
-end
-class TweetStartsWithX < Quest
-  validates :target, presence: true
-
-  def initialize(attributes = {})
-    super
-    self.target =('あ'..'ん').to_a.shuffle.first
-  end
-
-  def to_s
-    "「" + target + "」 から始まるツイートをしよう！"
-  end
-
-  def get_progress(user, client, cache)
-    cache[:tweet] ||= client.user_timeline({user_id: user.twid, count: 30, since_id: last_tweet})
-    cache[:tweet].each do |tweet|
-      return 1.0 if tweet.text.start_with?(target)
-    end
-    return 0.0
-  end
-
-  def get_score
-    return 125
   end
 end
 class FollowedByNUsers < Quest
