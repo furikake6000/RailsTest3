@@ -1,4 +1,5 @@
 class Quest < ApplicationRecord
+  include ApplicationHelper
 
   belongs_to :user
   validates :user_id, presence:true
@@ -8,7 +9,8 @@ class Quest < ApplicationRecord
 
   def initialize(attributes={})
     super
-    target = pickAWord
+    self.target = pickAWord
+    print("RandomWord:" + pickAWord + "\n")
   end
 
   def Quest.generate_new(user, client)
@@ -34,9 +36,10 @@ class Quest < ApplicationRecord
       type: questtypes.sample,
       #last_following: @last_following,
       #last_follower: @last_follower,
-      last_tweet: @last_tweet,
+      last_tweet: @last_tweet
       #last_retweet: @last_retweet
     )
+    print(quest)
     quest.save
     return quest
   end
@@ -73,7 +76,7 @@ class TweetStartsWithX < Quest
     return target.length * 50
   end
 end
-class TweetStartsWithX < Quest
+class TweetContainsX < Quest
   def to_s
     "「" + target + "」 を含むツイートをしよう！"
   end
@@ -107,7 +110,7 @@ class ReplyStartsWithX < Quest
     return target.length * 108
   end
 end
-class ReplyStartsWithX < Quest
+class ReplyContainsX < Quest
   def to_s
     "「" + target + "」 を含んだリプライをしよう！"
   end

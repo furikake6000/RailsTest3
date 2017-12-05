@@ -3,8 +3,6 @@ class StaticPagesController < ApplicationController
     if logged_in?
       render_users_show
       return
-    else
-      @dict = pickAWord
     end
   end
 
