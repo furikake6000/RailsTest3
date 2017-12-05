@@ -1,6 +1,7 @@
 module ApplicationHelper
   def pickAWord
-    File.open("./app/assets/dict/dict1", mode = "rt"){|f|
+    path = Dir.glob('./app/assets/dict/*')
+    File.open(path.sample, mode = "rt"){|f|
       return f.readlines.sample
     }
   end
