@@ -25,6 +25,10 @@ module TwitterSessionsHelper
     return @current_user ||= User.find_by(twid: cookies.permanent.signed[:twid])
   end
 
+  def handle_401(exception = nil)
+    render './public/401.html'
+  end
+
   def forgetuser
     cookies.delete(:twid)
     cookies.delete(:token)

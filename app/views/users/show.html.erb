@@ -9,11 +9,7 @@
         <h2 class="mt-0"><%= @user_tw_account.name %></h2>
         <p>Score: <%= @user.score %></p>
 
-        <%= form_tag({:controller => 'users', :action => 'senddm'}, :remote => true, :class => 'senddm-ajax') do -%>
-        <%= hidden_field_tag :ajax_tag, 'senddm' -%>
-        <%= submit_tag('Send dm', :class => 'btn btn-primary btn-sm') -%>
-
-        <% end %>
+        <%= link_to 'Logout', '/logout', method: :get, class: "btn btn-primary btn-sm" %>
       </div>
     </div>
 
