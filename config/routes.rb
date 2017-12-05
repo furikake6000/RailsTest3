@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root 'static_pages#home'
 
   get '/auth/twitter/callback', to:'twitter_sessions#create'
+  get '/auth/failure', to:'twitter_sessions#failure'
 
   get '/logout', to:'twitter_sessions#destroy'
   get '/about', to:'static_pages#about'

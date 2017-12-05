@@ -2,7 +2,7 @@ class TwitterSessionsController < ApplicationController
 
   require 'twitter'
 
-  rescue_from OAuth::Unauthorized, with: :handle_401
+  rescue_from OAuth::Unauthorized, with: :failure
 
   def create
     auth = request.env['omniauth.auth']
@@ -16,7 +16,7 @@ class TwitterSessionsController < ApplicationController
     redirect_to root_path
   end
 
-  def handle_401(exception = nil)
+  def failure
     render './public/401.html'
   end
 
