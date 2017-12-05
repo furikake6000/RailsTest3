@@ -5,25 +5,30 @@ module TwitterSessionsHelper
     Twitter::REST::Client.new do |config|
       config.consumer_key = Rails.application.secrets.twitter_api_key
       config.consumer_secret = Rails.application.secrets.twitter_api_secret
-      config.access_token = session[:token]
-      config.access_token_secret = session[:secret]
+      config.access_token = cookies.permanent.signed[:token]
+      config.access_token_secret = cookies.permanent.signed[:secret]
     end
+  end
+
+  def saveuser(auth)
+    cookies.permanent.signed[:twid] = auth[:uid]
+    cookies.permanent.signed[:token] = auth.credentials.token
+    cookies.permanent.signed[:secret] = auth.credentials.secret
   end
 
   def logged_in?
     !(current_user.nil?)
   end
 
-  def log_in(twid)
-    user = User.find_by(twid: twid)
-    user = create_user(twid) if user.nil?
-    session[:twid] = twid
-    return user
+  def current_user
+    return nil if cookies.permanent.signed[:twid].nil?
+    return @current_user ||= User.find_by(twid: cookies.permanent.signed[:twid])
   end
 
-  def current_user
-    return nil if session[:twid].nil?
-    return @current_user ||= User.find_by(twid: session[:twid])
+  def forgetuser
+    cookies.delete(:twid)
+    cookies.delete(:token)
+    cookies.delete(:secret)
   end
 
   private
@@ -35,8 +40,6 @@ module TwitterSessionsHelper
       #初期に5件のQuestを生成
       5.times do
         q = Quest.generate_new(user, @client)
-        flash[:danger] = "something wrong with creating quests..." if q.nil?
       end
-      flash[:success] = "User successfully made."
     end
 end

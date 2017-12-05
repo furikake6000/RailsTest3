@@ -4,11 +4,7 @@ class TwitterSessionsController < ApplicationController
 
   def create
     auth = request.env['omniauth.auth']
-
-    session[:token] = auth.credentials.token
-    session[:secret] = auth.credentials.secret
-    user = log_in(auth[:uid])
-
+    saveuser(auth)
     redirect_to root_path
 
   end
@@ -17,7 +13,5 @@ class TwitterSessionsController < ApplicationController
     reset_session
     redirect_to root_path
   end
-
-  private
 
 end
