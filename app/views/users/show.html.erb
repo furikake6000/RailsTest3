@@ -13,6 +13,14 @@
       </div>
     </div>
 
+    <p>あなたに与えられた「暗号」は</p>
+    <ul>
+    <% 5.times do %>
+      <li><%= pickAWord %></li>
+    <% end %>
+    </ul>
+    <p>です。ミッションの速やかな遂行を期待しています。</p>
+
     <%= render partial: 'quests/quest', collection: @quests, as: :quest %>
   </div>
   <div class="col-md-4">
