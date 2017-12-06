@@ -4,6 +4,7 @@ class User < ApplicationRecord
   default_scope -> { order(score: :desc) }
 
   has_many :quests, dependent: :destroy
+  has_many :words, dependent: :destroy
 
   def User.find_or_create_from_auth(auth)
     twid = auth[:uid]
