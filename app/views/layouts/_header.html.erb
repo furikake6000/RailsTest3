@@ -1,0 +1,7 @@
+<ul class="nav justify-content-center">
+  <li class="nav-item"><%= link_to "ホーム", root_path, class:"nav-link"%></li>
+  <li class="nav-item"><%= link_to "概要", '/about', class:"nav-link"%></li>
+  <% if logged_in? %>
+    <li class="nav-item"><%= link_to "ログアウト", '/logout', class:"nav-link"%></li>
+  <% end %>
+</ul>
