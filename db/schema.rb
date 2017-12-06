@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171206082651) do
+ActiveRecord::Schema.define(version: 20171206084902) do
 
   create_table "quests", force: :cascade do |t|
     t.string "type"
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(version: 20171206082651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "detector_id"
+    t.index ["detector_id"], name: "index_words_on_detector_id"
     t.index ["user_id"], name: "index_words_on_user_id"
   end
 
