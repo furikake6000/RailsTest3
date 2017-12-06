@@ -14,6 +14,9 @@ module TwitterSessionsHelper
     cookies.permanent.signed[:twid] = auth[:uid]
     cookies.permanent.signed[:token] = auth.credentials.token
     cookies.permanent.signed[:secret] = auth.credentials.secret
+    user = User.find_by(twid: cookies.permanent.signed[:twid])
+    user ||= create_user(cookies.permanent.signed[:twid])
+    return user
   end
 
   def logged_in?
@@ -43,7 +46,7 @@ module TwitterSessionsHelper
       @client ||= client_new
       #初期に5件のQuestを生成
       5.times do
-        q = Quest.generate_new(user, @client)
+        #q = Quest.generate_new(user, @client)
       end
     end
 end
