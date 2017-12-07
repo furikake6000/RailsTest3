@@ -16,6 +16,7 @@ class Word < ApplicationRecord
   end
 
   def count_including_tweets(user, client)
+    return @countcache if !(@countcache.nil?)
     count = 0
     catch :finish do
       1.upto(50) do |i|
@@ -26,6 +27,12 @@ class Word < ApplicationRecord
         end
       end
     end
-    return count
+    return @countcache = count
+  end
+
+  def get_score(user, client)
+    return -500 if detected
+    return @countcache * 50 if !(@countcache.nil?)
+    return count_including_tweets * 50
   end
 end
