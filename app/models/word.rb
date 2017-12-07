@@ -24,7 +24,6 @@ class Word < ApplicationRecord
           throw :finish if tweet.created_at < user.word_updated_at.beginning_of_day
           count += tweet.full_text.scan(/(?=#{self.name})/).count
         end
-        print(i)
       end
     end
     return count
