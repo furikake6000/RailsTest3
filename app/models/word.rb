@@ -10,4 +10,8 @@ class Word < ApplicationRecord
     super
     self.name = pickAWord
   end
+
+  def to_s
+    return self.name
+  end
 end
