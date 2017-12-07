@@ -9,8 +9,6 @@ module UsersHelper
     @words = @user.words.all
     @cache = {}
     @ranking = User.limit(10)
-
-    @tweets = @client.user_timeline({user_id: @user.twid, include_rts: false})
     render 'users/show'
   end
 

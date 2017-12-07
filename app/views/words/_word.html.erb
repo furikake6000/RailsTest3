@@ -1,1 +1,1 @@
-<li><%= word.to_s %></li>
+<li><%= word.to_s %> <%= word.count_including_tweets(@user, @client).to_s %></li>

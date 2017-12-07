@@ -22,11 +22,6 @@
 
     <p><%= @user.word_updated_at.beginning_of_day.yesterday %></p>
 
-    <% @tweets.each do |t| %>
-      <% break if t.created_at < @user.word_updated_at.beginning_of_day.yesterday %>
-      <p><%= t.created_at %></p>
-    <% end %>
-
   </div>
   <div class="col-md-4">
     <%= render partial: 'users/ranking' %>

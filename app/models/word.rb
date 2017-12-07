@@ -15,11 +15,17 @@ class Word < ApplicationRecord
     return self.name
   end
 
-  def count_including_tweets(user, client, cache)
+  def count_including_tweets(user, client)
     count = 0
-    cache ||= client.user_timeline({user_id: user.twid, count: 30, since_id: last_tweet})
-    cache.each do |tweet|
-      count += tweet.text.scan(/(?=#{self.name})/).count
+    catch :finish do
+      1.upto(50) do |i|
+        tweets = client.user_timeline({user_id: user.twid, include_rts: false, page:i})
+        tweets.each do |tweet|
+          throw :finish if tweet.created_at < user.word_updated_at.beginning_of_day
+          count += tweet.full_text.scan(/(?=#{self.name})/).count
+        end
+        print(i)
+      end
     end
     return count
   end
