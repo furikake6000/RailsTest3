@@ -1,1 +1,7 @@
-<li><%= word.to_s %> <%= word.count_including_tweets(@user, @client).to_s %></li>
+<tr>
+  <% count = word.count_including_tweets(@user, @client) %>
+  <td><%= word.to_s %></td>
+  <td><%= count %></td>
+  <td><%= count * 50 %></td>
+  <% @sum += count*50 %>
+</tr>

@@ -2,26 +2,30 @@
 
 <div class="row">
   <div class="col-md-8">
-    <div class="media">
-      <% icon_path = @user_tw_account.profile_image_url.to_s.sub(/(.*)_normal/){$1} %>
-      <%= image_tag(icon_path, size: "128x128" , alt: @user_tw_account.name, class: "mr-3 rounded-circle") %>
-      <div class="media-body">
-        <h2 class="mt-0"><%= @user_tw_account.name %></h2>
-        <p>Score: <%= @user.score %></p>
+    <div class="row">
+      <div class="media mb-3">
+        <% icon_path = @user_tw_account.profile_image_url.to_s.sub(/(.*)_normal/){$1} %>
+        <%= image_tag(icon_path, size: "128x128" , alt: @user_tw_account.name, class: "mr-3 rounded-circle") %>
+        <div class="media-body">
+          <h2 class="mt-0"><%= @user_tw_account.name %></h2>
+          <p>Score: <%= @user.score %></p>
 
-        <%= link_to 'Logout', '/logout', method: :get, class: "btn btn-primary btn-sm" %>
+          <%= link_to 'Logout', '/logout', method: :get, class: "btn btn-primary btn-sm" %>
+        </div>
+      </div>
+
+      <div class="card bg-light mb-3">
+        <div class="card-body">
+          <h3 class="card-title">Your status</h3>
+          <p class="card-text">本日のあなたの暗号は
+          <b>「<%= @words.join("」、「") %>」</b>
+          です。</p>
+          <p class="card-text">これらの単語を含んだツイートをしてください。含まれた数に応じてポイントが加算されます。</p>
+
+          <%= render partial: 'words/words' %>
+        </div>
       </div>
     </div>
-
-    <p>あなたに与えられた「暗号」は</p>
-    <ul>
-      <%= render @words %>
-    </ul>
-    <p>です。</p>
-    <p>これらの単語を含んだツイートをしてください。含まれた数に応じてポイントが加算されます。</p>
-
-    <p><%= @user.word_updated_at.beginning_of_day.yesterday %></p>
-
   </div>
   <div class="col-md-4">
     <%= render partial: 'users/ranking' %>
