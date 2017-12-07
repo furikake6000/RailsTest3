@@ -32,12 +32,12 @@ module UsersHelper
 
     def words_reset
       #履歴削除
-      if @user.word_updated_at.nil? || @user.word_updated_at < Time.zone.now.beginning_of_day
+      if @user.word_updated_at.nil? || @user.word_updated_at < Time.now.beginning_of_day
         @user.words.destroy_all
         5.times do
           word = @user.words.create
         end
-        @user.word_updated_at = Time.zone.now
+        @user.word_updated_at = Time.now
         @user.save
       end
     end
