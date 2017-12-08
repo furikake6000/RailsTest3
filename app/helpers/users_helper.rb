@@ -3,8 +3,6 @@ module UsersHelper
     @client = client_new
     @user = current_user
     @user_tw_account = @client.user(current_user.twid.to_i)
-    #@quests = @user.quests.all
-    #quest_reset
     words_reset
     @words = @user.words.all
     @cache = {}

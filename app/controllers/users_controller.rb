@@ -3,6 +3,7 @@ class UsersController < ApplicationController
     @client = client_new
     @user_tw_account = @client.user(params[:id].to_s)
     @user = User.find_by(twid: @user_tw_account.id)
+    @words = @user.words.all
   end
 
   def senddm
