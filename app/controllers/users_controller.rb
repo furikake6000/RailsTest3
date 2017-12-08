@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   def show
     @client = client_new
-    @user = User.find(params[:id])
-    @user_tw_account = @client.user(@user.twid.to_i)
+    @user_tw_account = @client.user(params[:id].to_s)
+    @user = User.find_by(twid: @user_tw_account.id)
   end
 
   def senddm
