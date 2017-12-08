@@ -1,5 +1,5 @@
 module UsersHelper
-  def render_users_show
+  def render_users_home
     @client = client_new
     @user = current_user
     @user_tw_account = @client.user(current_user.twid.to_i)
@@ -9,7 +9,7 @@ module UsersHelper
     @words = @user.words.all
     @cache = {}
     @ranking = User.limit(10)
-    render 'users/show'
+    render 'users/home'
   end
 
   private
