@@ -10,6 +10,5 @@ class StaticPagesController < ApplicationController
   end
 
   def sandbox
-
   end
 end
