@@ -8,7 +8,6 @@ module UsersHelper
     words_reset
     @words = @user.words.all
     @cache = {}
-    @ranking = User.limit(10)
     render 'users/home'
   end
 
