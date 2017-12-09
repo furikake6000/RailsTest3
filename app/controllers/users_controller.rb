@@ -20,7 +20,7 @@ class UsersController < ApplicationController
       render_404 if @user.nil?
       @word = @user.words.find_by(name: params[:word])
       if !(@word.nil?)
-        @word.detect_by(@user)
+        @word.detect_by(current_user)
         @result = "success"
       else
         @result = "fail"
