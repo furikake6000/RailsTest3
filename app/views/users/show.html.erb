@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-12 col-md-8">
     <div class="row">
       <div class="media mb-3">
         <% icon_path = @user_tw_account.profile_image_url.to_s.sub(/(.*)_normal/){$1} %>
@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-12 col-md-4">
     <%= render partial: 'users/ranking' %>
   </div>
 </div>
