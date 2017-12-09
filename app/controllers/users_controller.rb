@@ -23,6 +23,8 @@ class UsersController < ApplicationController
         @word.detect_by(current_user)
         @result = "success"
       else
+        current_user.score -= 50
+        current_user.save
         @result = "fail"
       end
     else
