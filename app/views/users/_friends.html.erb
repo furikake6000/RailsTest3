@@ -1,0 +1,17 @@
+<h3>Friends</h3>
+
+<% @friends = User.where("twid IN (?)", @client.friend_ids.to_a.take(1000)) %>
+<% @friends.each do |friend| %>
+
+<% friendaccount = @client.user(friend.twid.to_i) %>
+
+<div class="media">
+  <% icon_path = friendaccount.profile_image_url.to_s.sub(/(.*)_normal/){$1} %>
+  <%= image_tag(icon_path, size: "64x64" , alt: friendaccount.name, class: "mr-3 rounded-circle") %>
+  <div class="media-body">
+    <h5 class="mt-0"><%= link_to friendaccount.name, "users/#{friendaccount.screen_name}" %></h5>
+    <p>Score: <%= friend.score %></p>
+  </div>
+</div>
+
+<% end %>
