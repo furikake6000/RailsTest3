@@ -16,7 +16,13 @@ class UsersController < ApplicationController
 
   def report
     if params[:ajax_tag] == 'report'
-      @result = true
+      @user = User.find(params[:reported_id])
+      @word = @user.words.find_by(name: params[:word])
+      if !(@word.nil?)
+        @succeed = true
+      else
+        @succeed = false
+      end
     else
       render_404
     end
