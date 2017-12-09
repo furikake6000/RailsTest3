@@ -32,7 +32,7 @@ class Word < ApplicationRecord
   def get_score(user, client)
     return -100 if detected
     return @countcache * 50 if !(@countcache.nil?)
-    return count_including_tweets * 50
+    return count_including_tweets(user, client) * 50
   end
 
   def detect_by(user)

@@ -31,7 +31,7 @@ module UsersHelper
       #履歴削除
       if @user.word_updated_at.nil? || @user.word_updated_at < Time.now.beginning_of_day
         @user.words.each do |word|
-          @user.score += word.get_score
+          @user.score += word.get_score(@user, @client)
         end
 
         @user.words.destroy_all

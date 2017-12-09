@@ -1,5 +1,7 @@
-<% @words.select{|w| w.detected }.each do |word| %>
+<% @words.select{|w| w.detected && !w.noticed_detection }.each do |word| %>
 
+<% word.noticed_detection = true %>
+<% word.save %>
 <% detector = User.find(word.detectorid) %>
 <% next if detector.nil? %>
 <% detectoraccount = @client.user(detector.twid.to_i) %>
