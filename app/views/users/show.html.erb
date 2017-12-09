@@ -14,11 +14,11 @@
   </div>
   <div class="card-body">
     <p class="card-text text-danger">当該人物は、次の暗号を使用したスパイであると思われます。</p>
-    <div classs="form-group">
-      <input class="form-control form-control-lg" placeholder="「暗号」をここに入力してください">
-    </div>
-    <button type="submit" class="btn btn-danger text-light mt-3">詳細な照合を依頼します。</button>
-
+    <%= form_tag({controller: "users", action: "report"}, remote: true, class: "form-group") do %>
+      <%= hidden_field_tag :ajax_tag, "report" %>
+      <%= text_field_tag :word, "", placeholder: "「暗号」を入力してください", class:"form-control form-control-lg" %>
+      <%= submit_tag("詳細な照合を依頼します。", class:"btn btn-danger text-light mt-3") %>
+    <% end %>
   </div>
 </div>
 <% end %>
