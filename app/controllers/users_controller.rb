@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
   def report
     if params[:ajax_tag] == 'report'
-
+      @result = true
     else
       render_404
     end

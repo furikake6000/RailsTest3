@@ -1,0 +1,7 @@
+$(function(){
+  $('#report-result').html('not hello world!');
+
+  $('#report-result').on('ajax:success', function(){
+      $('#report-result').html('hello world!');
+    });
+});
