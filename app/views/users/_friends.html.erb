@@ -1,4 +1,4 @@
-<h3>Friends</h3>
+<h3>ライバル</h3>
 
 <% @friends = User.where("twid IN (?)", @client.friend_ids.to_a.take(1000)) %>
 <% @friends.each do |friend| %>
