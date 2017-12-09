@@ -34,4 +34,10 @@ class Word < ApplicationRecord
     return @countcache * 50 if !(@countcache.nil?)
     return count_including_tweets * 50
   end
+
+  def detect_by(user)
+    self.detected = true
+    self.detectorid = user.id
+    self.save
+  end
 end

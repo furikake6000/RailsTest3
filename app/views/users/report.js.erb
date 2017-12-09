@@ -1,1 +1,1 @@
-$('#report-result').html('<%= escape_javascript(render partial: "users/report_success") %>');
+$('#report-result').html('<%= escape_javascript(render partial: "users/report_#{@result}") %>');
