@@ -1,0 +1,18 @@
+<% @words.select{|w| w.detected }.each do |word| %>
+
+<% detector = User.find(word.detectorid) %>
+<% next if detector.nil? %>
+<% detectoraccount = @client.user(detector.twid.to_i) %>
+
+<div class="alert alert-danger text-center" role="alert">
+  <h4 class="alert-heading">通告</h4>
+  <small>
+    <p>貴方のスパイ活動が察知されました。<br/>貴方へのペナルティとして100ポイントが減算されます。</p>
+    <p>摘発された暗号：「<%= word.name %>」</p>
+    <p>摘発者は<%=detectoraccount.name%>(@<%=detectoraccount.screen_name%>)であると思われます。</p>
+    <hr>
+    <p class="text-sm mb-0">未摘発の暗号が残っている場合、貴方はまだ活動を継続することが出来ます。</p>
+  </small>
+</div>
+
+<% end %>
