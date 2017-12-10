@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   def show
+    redirect_to root_path if !logged_in?
     @client = client_new
     @user_tw_account = @client.user(params[:id].to_s)
     @user = User.find_by(twid: @user_tw_account.id)
