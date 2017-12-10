@@ -5,7 +5,7 @@
       <%= image_tag(icon_path, size: "128x128" , alt: @user_tw_account.name, class: "mr-3 rounded-circle") %>
       <div class="media-body">
         <h2 class="mt-0"><%= @user_tw_account.name %></h2>
-        <p>Score: <%= @user.score %></p>
+        <p>Score: <%= @user.get_score(@client) %></p>
       </div>
     </div>
 

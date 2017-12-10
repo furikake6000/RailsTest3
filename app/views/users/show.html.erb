@@ -6,7 +6,7 @@
       <div class="media-body">
         <h2 class="mt-0"><%= @user_tw_account.name %></h2>
         <h4 class="mt-0"><%= link_to "Twitterページを見る", @user_tw_account.url.to_s, target:"_new" %></h2>
-        <p>Score: <%= @user.score %></p>
+        <p>Score: <%= @user.get_score(nil) %></p>
       </div>
     </div>
 

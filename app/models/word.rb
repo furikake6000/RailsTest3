@@ -15,19 +15,14 @@ class Word < ApplicationRecord
   end
 
   def count_including_tweets(user, client)
-    #clientがnilだったらキャッシュを探す
-    if client.nil?
-      return 0 if self.cached_at.nil?
-      return self.countcache
-    end
-    #5分以内だったらキャッシュを返す
-    return self.countcache if !(self.cached_at.nil?) && self.cached_at > Time.zone.now.ago(300)
+    #clientがnil、もしくは前回キャッシュ取得から5分以内だったらキャッシュを返す
+    return self.countcache if client.nil? || !(self.cached_at.nil?) && self.cached_at > Time.zone.now.ago(300)
     count = 0
     catch :finish do
       1.upto(50) do |i|
         tweets = client.user_timeline({user_id: user.twid, include_rts: false, page:i})
         tweets.each do |tweet|
-          throw :finish if tweet.created_at < user.word_updated_at.beginning_of_day
+          throw :finish if tweet.created_at < user.word_updated_at.localtime("+09:00").beginning_of_day
           count += tweet.full_text.scan(/(?=#{self.name})/).count
         end
       end

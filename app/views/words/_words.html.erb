@@ -7,18 +7,17 @@
       <th scope="col">獲得スコア</th>
     </tr>
   </thead>
-  <% @sum = 0 %>
   <%= render @words %>
   <tr>
     <th scope="row">本日獲得スコア</th>
     <td></td>
     <td></td>
-    <td><%= @sum %></td>
+    <td><%= @user.get_score(nil) - @user.score %></td>
   </tr>
   <tr>
     <th scope="row">合計スコア</th>
     <td></td>
     <td></td>
-    <td><%= @user.score + @sum %></td>
+    <td><%= @user.get_score(nil) %></td>
   </tr>
 </table>
