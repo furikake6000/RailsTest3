@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   get '/logout', to:'twitter_sessions#destroy'
   get '/about', to:'static_pages#about'
+  get '/info', to:'static_pages#info'
 
   post '/users/report', to:'users#report'
 
