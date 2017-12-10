@@ -12,11 +12,4 @@ Rails.application.routes.draw do
 
   post '/users/report', to:'users#report'
 
-  #get '/quests', to:'quests#show'
-  #delete '/quests/destroy', to:'quests#destroy'
-
-  #get '/sandbox', to:'static_pages#sandbox'
-
-  #post '/senddm', to:'users#senddm'
-
 end

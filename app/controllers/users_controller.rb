@@ -8,13 +8,6 @@ class UsersController < ApplicationController
     @words = @user.words.all
   end
 
-  def senddm
-    if params[:ajax_tag] == 'senddm'
-      @client = client_new
-      @client.create_direct_message(current_user.twid.to_i, "ぼたんがおされたよん")
-    end
-  end
-
   def report
     if params[:ajax_tag] == 'report'
       @user = User.find(params[:reported_id])
