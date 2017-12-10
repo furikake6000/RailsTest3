@@ -1,10 +1,20 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-  <%= link_to "F国からのスパイ", root_path, class:"navbar-brand mb-0"%>
-  <ul class="navbar-nav">
-    <li class="nav-item"><%= link_to "遊び方", '/about', class:"nav-link"%></li>
-    <li class="nav-item"><%= link_to "インフォメーション", '/info', class:"nav-link"%></li>
-    <% if logged_in? %>
-      <li class="nav-item"><%= link_to "ログアウト", '/logout', class:"nav-link"%></li>
-    <% end %>
-  </ul>
-</nav>
+<header class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+  <h3><%= link_to "F国からのスパイ", root_path, class:"navbar-brand mb-0"%></h3>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <% if !(logged_in?) %>
+        <li class="nav-item"><%= link_to "ホーム", root_path, class:"nav-link"%></li>
+      <% end %>
+      <li class="nav-item"><%= link_to "遊び方", '/about', class:"nav-link"%></li>
+      <li class="nav-item"><%= link_to "インフォメーション", '/info', class:"nav-link"%></li>
+      <% if logged_in? %>
+        <li class="nav-item"><%= link_to "マイページ", root_path, class:"nav-link"%></li>
+        <li class="nav-item"><%= link_to "ログアウト", '/logout', class:"nav-link"%></li>
+      <% end %>
+    </ul>
+  </div>
+</header>
