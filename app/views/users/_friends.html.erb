@@ -1,4 +1,6 @@
 <h3>ライバル</h3>
 
-<% @friends = User.where("twid IN (?)", @client.friend_ids.take(1000).map(&:to_s)) %>
-<%= render @friends %>
+<%  @client.friend_ids.each_slice(1000) do |allfriends| %>
+  <% @friends = User.where("twid IN (?)", allfriends.map(&:to_s)) %>
+  <%= render @friends %>
+<% end %>
