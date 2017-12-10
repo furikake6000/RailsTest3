@@ -31,3 +31,10 @@ textarea{
   padding: 5px;
   margin: 10px 0px;
 }
+
+/*Table*/
+.table{
+  @media (max-width: 800px) {
+    font-size: 75%;
+  }
+}
