@@ -15,13 +15,17 @@
 <% else %>
   <% #見ているのが自分以外の単語である場合 %>
   <% if word.detected %>
-  <tr class="table-danger">
+    <% if word.detectorid == current_user.id %>
+      <tr class="table-info">
+    <% else %>
+      <tr class="table-warning">
+    <% end %>
   <% else %>
-  <tr>
+    <tr>
   <% end %>
     <% count = word.count_including_tweets(@user, @client) %>
     <td><%= word.detected ? word.to_s : "???" %></td>
-    <td><%= word.detected ? "摘発されました" : "未摘発" %></td>
+    <td><%= word.detected ? (word.detectorid == current_user.id ? "摘発しました" : "摘発されています") : "未摘発" %></td>
     <td><%= word.detected ? word.count_including_tweets(@user, @client) : "???" %></td>
     <td><%= word.detected ? word.get_score(@user, @client) : "???" %></td>
     <% @sum += word.get_score(@user, @client) %>
