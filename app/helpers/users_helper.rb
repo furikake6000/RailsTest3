@@ -33,7 +33,7 @@ module UsersHelper
 
     def words_reset
       #履歴削除
-      if @user.word_updated_at.nil? || @user.word_updated_at < Time.now.beginning_of_day
+      if @user.word_updated_at.nil? || @user.word_updated_at.localtime("+09:00") < Time.now.localtime("+09:00").beginning_of_day
         @user.words.each do |word|
           @user.score += word.get_score(@user, @client)
         end

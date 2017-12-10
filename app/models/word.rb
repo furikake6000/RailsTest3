@@ -22,7 +22,7 @@ class Word < ApplicationRecord
       1.upto(50) do |i|
         tweets = client.user_timeline({user_id: user.twid, include_rts: false, page:i})
         tweets.each do |tweet|
-          throw :finish if tweet.created_at < user.word_updated_at.localtime("+09:00").beginning_of_day
+          throw :finish if tweet.created_at.dup.localtime("+09:00") < user.word_updated_at.localtime("+09:00").beginning_of_day
           count += tweet.full_text.scan(/(?=#{self.name})/).count
         end
       end
