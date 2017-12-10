@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171209151903) do
+ActiveRecord::Schema.define(version: 20171210132759) do
 
   create_table "quests", force: :cascade do |t|
     t.string "type"
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(version: 20171209151903) do
     t.integer "user_id"
     t.integer "detectorid"
     t.boolean "noticed_detection"
+    t.integer "countcache", default: 0
+    t.datetime "cached_at"
     t.index ["user_id"], name: "index_words_on_user_id"
   end
 
