@@ -15,7 +15,13 @@ class Word < ApplicationRecord
   end
 
   def count_including_tweets(user, client)
-    return @countcache if !(@countcache.nil?)
+    #clientがnilだったらキャッシュを探す
+    if client.nil?
+      return 0 if self.cached_at.nil?
+      return self.countcache
+    end
+    #5分以内だったらキャッシュを返す
+    return self.countcache if !(self.cached_at.nil?) && self.cached_at > Time.zone.now.ago(300)
     count = 0
     catch :finish do
       1.upto(50) do |i|
@@ -26,12 +32,14 @@ class Word < ApplicationRecord
         end
       end
     end
-    return @countcache = count
+    self.countcache = count
+    self.cached_at = Time.zone.now
+    self.save
+    return self.countcache
   end
 
   def get_score(user, client)
     return -100 if detected
-    return @countcache * 50 if !(@countcache.nil?)
     return count_including_tweets(user, client) * 50
   end
 

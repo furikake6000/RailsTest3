@@ -11,4 +11,12 @@ class User < ApplicationRecord
     return User.find_or_create_by(twid: twid)
   end
 
+  def get_score(client)
+    returnscore = self.score
+    self.words.each do |word|
+      returnscore += word.get_score(self, client)
+    end
+    return returnscore
+  end
+
 end
