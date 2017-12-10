@@ -1,7 +1,7 @@
 <% acc = @client.user(user.twid.to_i) %>
 
 <div class="media">
-  <% icon_path = acc.profile_image_url.to_s.sub(/(.*)_normal/){$1} %>
+  <% icon_path = get_twpic_uri(acc) %>
   <%= link_to image_tag(icon_path, size: "64x64" , alt: acc.name, class: "mr-3 rounded-circle"), "/users/#{acc.screen_name}" %>
   <div class="media-body">
     <h5 class="mt-0"><%= link_to acc.name, "/users/#{acc.screen_name}" %></h5>

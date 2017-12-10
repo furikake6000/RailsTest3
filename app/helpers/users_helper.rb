@@ -9,6 +9,10 @@ module UsersHelper
     render 'users/home'
   end
 
+  def get_twpic_uri(useracc)
+    useracc.profile_image_url.to_s.sub(/http/, "https").sub(/(.*)_normal/){$1}
+  end
+
   private
   #時間切れクエストを削除、更新
     def quest_reset
