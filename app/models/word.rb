@@ -22,7 +22,7 @@ class Word < ApplicationRecord
 
   def get_score(user, client)
     return -100 if detected
-    return count_including_tweets(user, client) * 50
+    return self.countcache * 50
   end
 
   def detect_by(user)

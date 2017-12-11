@@ -54,13 +54,13 @@ class User < ApplicationRecord
           end
         end
       end
+    end
 
-      yesterdayswords.each do |w|
-        w.save
-      end
-      todayswords.each do |w|
-        w.save
-      end
+    yesterdayswords.each do |w|
+      w.save
+    end
+    todayswords.each do |w|
+      w.save
     end
   end
 
