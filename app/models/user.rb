@@ -63,6 +63,26 @@ class User < ApplicationRecord
     end
   end
 
+  def words_reset(client)
+    #1日以上前の単語を削除する(日付変わった瞬間に削除されない)
+    self.words.each do |word|
+      if word.created_at.localtime("+09:00") < Time.now.localtime("+09:00").beginning_of_day.yesterday
+        #削除される時にスコア加算
+        self.score += word.get_score(self, client)
+        word.destroy
+      end
+    end
+    #日付変わったら5個単語を生成
+    if self.word_updated_at.nil? || self.word_updated_at.localtime("+09:00") < Time.now.localtime("+09:00").beginning_of_day
+      self.words.destroy_all
+      self.word_updated_at = Time.now
+      self.save
+      5.times do
+        word = self.words.create
+      end
+    end
+  end
+
   def get_score(client)
     returnscore = self.score
     self.words.each do |word|
