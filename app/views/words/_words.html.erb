@@ -7,14 +7,18 @@
       <th scope="col">獲得スコア</th>
     </tr>
   </thead>
+  <% sum = 0 %>
   <% @words.each do |word| %>
-    <%= render word if word.alive? %>
+    <% if word.alive? %>
+      <%= render word %>
+      <% sum += word.get_score %>
+    <% end %>
   <% end %>
   <tr>
     <th scope="row">本日獲得スコア</th>
     <td></td>
     <td></td>
-    <td><%= @user.get_score(nil) - @user.score %></td>
+    <td><%= sum %></td>
   </tr>
   <tr>
     <th scope="row">合計スコア</th>
