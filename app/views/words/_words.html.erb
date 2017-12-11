@@ -11,7 +11,7 @@
   <% @words.each do |word| %>
     <% if word.alive? %>
       <%= render word %>
-      <% sum += word.get_score %>
+      <% sum += word.get_score(@user, nil) %>
     <% end %>
   <% end %>
   <tr>
