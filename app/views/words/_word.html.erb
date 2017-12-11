@@ -21,9 +21,9 @@
   <% else %>
     <tr>
   <% end %>
-    <td><%= word.detected || !word.alive? ? word.to_s : "???" %></td>
+    <td><%= word.detected || !word.report_available? ? word.to_s : "???" %></td>
     <td><%= word.detected ? (word.detectorid == current_user.id ? "摘発しました" : "摘発されています") : "未摘発" %></td>
-    <td><%= word.detected || !word.alive? ? word.count_including_tweets(@user, nil) : "???" %></td>
-    <td><%= word.detected || !word.alive? ? word.get_score(@user, nil) : "???" %></td>
+    <td><%= word.detected || !word.report_available? ? word.count_including_tweets(@user, nil) : "???" %></td>
+    <td><%= word.detected || !word.report_available? ? word.get_score(@user, nil) : "???" %></td>
   </tr>
 <% end %>

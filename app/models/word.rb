@@ -34,10 +34,10 @@ class Word < ApplicationRecord
   end
 
   def alive?
-    return (word.created_at.localtime("+09:00") < Time.now.localtime("+09:00").beginning_of_day)
+    return (self.created_at.localtime("+09:00") > Time.now.localtime("+09:00").beginning_of_day)
   end
 
   def report_available?
-    return (word.created_at.localtime("+09:00") < (Time.now.localtime("+09:00").beginning_of_day) + 1.hour)
+    return (self.created_at.localtime("+09:00") > (Time.now - 1.hour).localtime("+09:00").beginning_of_day)
   end
 end

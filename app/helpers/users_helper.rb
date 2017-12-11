@@ -4,7 +4,7 @@ module UsersHelper
     @user = current_user
     @user_tw_account = @client.user(current_user.twid.to_i)
     @user.refresh_wordcaches(@client)
-    @user.words_reset
+    @user.words_reset(@client)
     @words = @user.words.all
     render 'users/home'
   end
