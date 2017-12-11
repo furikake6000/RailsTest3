@@ -32,18 +32,22 @@ module UsersHelper
     end
 
     def words_reset
-      #履歴削除
-      if @user.word_updated_at.nil? || @user.word_updated_at.localtime("+09:00") < Time.now.localtime("+09:00").beginning_of_day
-        @user.words.each do |word|
+      #1日以上前の単語を削除する(日付変わった瞬間に削除されない)
+      @user.words.each do |word|
+        if word.created_at.localtime("+09:00") < Time.now.localtime("+09:00").beginning_of_day.yesterday
+          #削除される時にスコア加算
           @user.score += word.get_score(@user, @client)
+          word.destroy
         end
-
+      end
+      #日付変わったら5個単語を生成
+      if @user.word_updated_at.nil? || @user.word_updated_at.localtime("+09:00") < Time.now.localtime("+09:00").beginning_of_day
         @user.words.destroy_all
+        @user.word_updated_at = Time.now
+        @user.save
         5.times do
           word = @user.words.create
         end
-        @user.word_updated_at = Time.now
-        @user.save
       end
     end
 end

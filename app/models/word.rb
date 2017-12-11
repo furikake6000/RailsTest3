@@ -21,8 +21,10 @@ class Word < ApplicationRecord
     catch :finish do
       1.upto(50) do |i|
         tweets = client.user_timeline({user_id: user.twid, include_rts: false, page:i})
+        print(i)
         tweets.each do |tweet|
           throw :finish if tweet.created_at.dup.localtime("+09:00") < user.word_updated_at.localtime("+09:00").beginning_of_day
+          print(tweet.created_at.dup.localtime("+09:00").to_s + "is after than " + user.word_updated_at.localtime("+09:00").beginning_of_day.to_s + "\n")
           count += tweet.full_text.scan(/(?=#{self.name})/).count
         end
       end
@@ -44,5 +46,9 @@ class Word < ApplicationRecord
     self.save
     user.score += 100
     user.save
+  end
+
+  def alive?
+    return (word.created_at.localtime("+09:00") < Time.now.localtime("+09:00").beginning_of_day)
   end
 end

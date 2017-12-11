@@ -30,8 +30,15 @@
 
     <div class="card bg-light mb-3">
       <div class="card-body">
-        <h3 class="card-title">Mission</h3>
+        <h3 class="card-title"><%= @user_tw_account.name %>の本日のミッション</h3>
         <%= render partial: 'words/words' %>
+      </div>
+    </div>
+
+    <div class="card bg-light mb-3">
+      <div class="card-body">
+        <h3 class="card-title"><%= @user_tw_account.name %>の昨日のミッション</h3>
+        <%= render partial: 'words/deadwords' %>
       </div>
     </div>
   </div>

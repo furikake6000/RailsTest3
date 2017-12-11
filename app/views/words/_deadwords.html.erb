@@ -1,0 +1,13 @@
+<table class="table wordlist">
+  <thead>
+    <tr>
+      <th scope="col">暗号</th>
+      <th scope="col">摘発</th>
+      <th scope="col">投稿数</th>
+      <th scope="col">獲得スコア</th>
+    </tr>
+  </thead>
+  <% @words.each do |word| %>
+    <%= render word if !word.alive? %>
+  <% end %>
+</table>
