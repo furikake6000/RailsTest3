@@ -15,23 +15,8 @@ class Word < ApplicationRecord
   end
 
   def count_including_tweets(user, client)
-    #clientがnil、もしくは前回キャッシュ取得から5分以内だったらキャッシュを返す
-    return self.countcache if client.nil? || !(self.cached_at.nil?) && self.cached_at > Time.zone.now.ago(300)
-    count = 0
-    catch :finish do
-      1.upto(50) do |i|
-        tweets = client.user_timeline({user_id: user.twid, include_rts: false, page:i})
-        print(i)
-        tweets.each do |tweet|
-          throw :finish if tweet.created_at.dup.localtime("+09:00") < user.word_updated_at.localtime("+09:00").beginning_of_day
-          print(tweet.created_at.dup.localtime("+09:00").to_s + "is after than " + user.word_updated_at.localtime("+09:00").beginning_of_day.to_s + "\n")
-          count += tweet.full_text.scan(/(?=#{self.name})/).count
-        end
-      end
-    end
-    self.countcache = count
-    self.cached_at = Time.zone.now
-    self.save
+    #キャッシュを返す
+    #キャッシュ取得はUser::refresh_wordcachesで行うように（仕様変更）
     return self.countcache
   end
 
@@ -50,5 +35,9 @@ class Word < ApplicationRecord
 
   def alive?
     return (word.created_at.localtime("+09:00") < Time.now.localtime("+09:00").beginning_of_day)
+  end
+
+  def report_available?
+    return (word.created_at.localtime("+09:00") < (Time.now.localtime("+09:00").beginning_of_day) + 1.hour)
   end
 end
