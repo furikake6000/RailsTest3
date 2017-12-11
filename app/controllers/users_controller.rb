@@ -17,7 +17,10 @@ class UsersController < ApplicationController
       render_404 if @user.nil?
       @word = @user.words.find_by(name: params[:word])
       if !(@word.nil?)
-        if @word.detected
+        if !(@word.report_available?)
+          #通報期限切れ
+          @result = "reportnotavailable"
+        elsif @word.detected
           @result = "alreadyreported"
         else
           @word.detect_by(current_user)
