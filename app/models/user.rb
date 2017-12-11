@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   validates :twid, presence: true
 
-  default_scope -> { order(score: :desc) }
+  default_scope -> { order(current_score_cache: :desc) }
 
   has_many :quests, dependent: :destroy
   has_many :words, dependent: :destroy
@@ -85,11 +85,12 @@ class User < ApplicationRecord
   end
 
   def get_score(client)
-    returnscore = self.score
+    self.current_score_cache = self.score
     self.words.each do |word|
-      returnscore += word.get_score(self, client)
+      self.current_score_cache += word.get_score(self, client)
     end
-    return returnscore
+    self.save
+    return self.current_score_cache
   end
 
 end

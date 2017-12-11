@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171210132759) do
+ActiveRecord::Schema.define(version: 20171211155507) do
 
   create_table "quests", force: :cascade do |t|
     t.string "type"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20171210132759) do
     t.datetime "updated_at", null: false
     t.integer "score", default: 0
     t.datetime "word_updated_at"
+    t.integer "current_score_cache"
   end
 
   create_table "words", force: :cascade do |t|
