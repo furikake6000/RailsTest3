@@ -1,6 +1,7 @@
 <h3>ライバル</h3>
-
+<% @friends = [] %>
 <%  @client.friend_ids.each_slice(1000) do |allfriends| %>
-  <% @friends = User.where("twid IN (?)", allfriends.map(&:to_s)) %>
-  <%= render @friends %>
+  <% @friends.concat(User.where("twid IN (?)", allfriends.map(&:to_s))) %>
 <% end %>
+<% @friends.push(current_user) if !(@friends.include?(current_user)) %>
+<%= render @friends.sort_by{|a| a.get_score(nil) * -1 } %>
