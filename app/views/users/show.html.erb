@@ -11,21 +11,7 @@
     </div>
 
     <% if @user != current_user %>
-    <div class="card text-center border-danger mb-3">
-      <div class="card-header">
-        <h3 class="card-title text-danger">摘発フォーム</h3>
-      </div>
-      <div class="card-body">
-        <p class="card-text text-danger">当該人物は、次の暗号を使用したスパイであると思われます。</p>
-        <%= form_tag({controller: "users", action: "report"}, remote: true, class: "form-group") do %>
-          <%= hidden_field_tag :ajax_tag, "report" %>
-          <%= hidden_field_tag :reported_id, @user.id %>
-          <%= text_field_tag :word, "", placeholder: "「暗号」を入力してください", class:"form-control form-control-lg" %>
-          <%= submit_tag("詳細な照合を依頼します。", class:"btn btn-danger text-light mt-3") %>
-        <% end %>
-        <div id="report-result"></div>
-      </div>
-    </div>
+    <%= render partial: 'users/report_form' %>
     <% end %>
 
     <div class="card bg-light mb-3">
