@@ -1,11 +1,13 @@
-<div class="alert alert-success" role="alert">
-  <%= image_tag "success.png", width: "100%" %>
-  <h4 class="alert-heading">摘発成功</h4>
-  <p>貴方の協力により当該スパイは摘発されました。</p>
-  <p>摘発された暗号：「<%= @word %>」</p>
-  <p>ご協力ありがとうございます。</p>
-  <p>貴方へは報酬として100ポイントが加算されます。</p>
-  <%= link_to "情報を共有する", tweetlink("#{@user_tw_account.name}( @#{@user_tw_account.screen_name} )は暗号「#{@wordstr}」を所持したF国のスパイであった！私は母国の危機を未然に防ぐことができた！"), class: "btn btn-success", target: "_new" %>
-  <hr>
-  <small><p class="text-sm mb-0">当該人物は引き続き別の暗号を使用したスパイ活動を継続するものと思われます。引き続き監視の目を緩めないでください。</p></small>
+<div class="card text-white bg-success center">
+  <%= image_tag "success.png", class:"card-img-top" %>
+  <div class="card-body">
+    <h4 class="card-title">摘発成功</h4>
+    <p class="card-text">貴方の協力により当該スパイは摘発されました。</p>
+    <p class="card-text">摘発された暗号：「<%= @word %>」</p>
+    <p class="card-text">ご協力ありがとうございます。</p>
+    <p class="card-text">貴方へは報酬として100ポイントが加算されます。</p>
+    <%= link_to "情報を共有する", tweetlink("#{@user_tw_account.name}( @#{@user_tw_account.screen_name} )は暗号「#{@wordstr}」を所持したF国のスパイであった！私は母国の危機を未然に防ぐことができた！"), class: "btn btn-dark", target: "_new" %>
+    <hr>
+    <p class="card-text mb-0"><small>当該人物は引き続き別の暗号を使用したスパイ活動を継続するものと思われます。引き続き監視の目を緩めないでください。</small></p>
+  </div>
 </div>
