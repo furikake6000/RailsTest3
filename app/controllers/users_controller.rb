@@ -14,8 +14,11 @@ class UsersController < ApplicationController
   def report
     if params[:ajax_tag] == 'report'
       @user = User.find(params[:reported_id])
+      @client = client_new
+      @user_tw_account = @client.user(@user.twid.to_i)
       render_404 if @user.nil?
-      @word = @user.words.find_by(name: params[:word])
+      @wordstr = params[:word]
+      @word = @user.words.find_by(name: @wordstr)
       if !(@word.nil?)
         if !(@word.report_available?)
           #通報期限切れ

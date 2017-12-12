@@ -2,6 +2,7 @@
   <h4 class="alert-heading">摘発失敗</h4>
   <p>該当人物は上記のような暗号を所持してはいませんでした。</p>
   <p>貴方へのペナルティとして50ポイントが減算されます。</p>
+  <%= link_to "情報を共有する", tweetlink("#{@user_tw_account.name}( @#{@user_tw_account.screen_name} )氏を暗号「#{@wordstr}」所持容疑で摘発したが失敗した。氏は善良な市民であった..."), class: "btn btn-danger", target: "_new" %>
   <hr>
   <small><p class="mb-0">引き続き監視の目を緩めないでください。</p></small>
 </div>
