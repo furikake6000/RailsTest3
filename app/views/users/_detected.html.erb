@@ -12,6 +12,7 @@
     <p>貴方のスパイ活動が察知されました。<br/>貴方へのペナルティとして100ポイントが減算されます。</p>
     <p>摘発された暗号：「<%= word.name %>」</p>
     <p>摘発者は<%=detectoraccount.name%>(@<%=detectoraccount.screen_name%>)であると思われます。</p>
+    <%= link_to "情報を共有する", tweetlink("私が所持していた暗号「#{word.name}」が#{detectoraccount.name}( @#{detectoraccount.screen_name} )によって暴かれてしまった..."), class: "btn btn-danger", target: "_new" %>
     <hr>
     <p class="text-sm mb-0">未摘発の暗号が残っている場合、貴方はまだ活動を継続することが出来ます。</p>
   </small>
