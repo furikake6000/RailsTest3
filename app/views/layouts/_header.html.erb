@@ -1,5 +1,7 @@
 <header class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-  <h3><%= link_to "F国からのスパイ", root_path, class:"navbar-brand mb-0"%></h3>
+  <a href="<%= root_path %>" class="navbar-brand">
+    <%= image_tag "logo.png", width:200 %>
+  </a>
 
   <ul class="navbar-nav mr-auto">
     <% if !(logged_in?) %>
