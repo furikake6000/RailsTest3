@@ -5,6 +5,9 @@
   <%= link_to image_tag(icon_path, size: "64x64" , alt: acc.name, class: "mr-3 rounded-circle"), "/users/#{acc.screen_name}" %>
   <div class="media-body">
     <h5 class="mt-0"><%= link_to acc.name, "/users/#{acc.screen_name}" %></h5>
-    <p>Score: <%= user.get_score(nil) %></p>
+    <p>
+      Score: <%= user.get_score(nil) %>
+      <%= link_to "Twitter", @user_tw_account.url.to_s, target:"_new" %>
+    </p>
   </div>
 </div>
