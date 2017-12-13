@@ -3,7 +3,7 @@
   <%= image_tag(get_twpic_uri_small(tweet.user), size: "48x48" , alt: tweet.user.name, class: "mr-3") %>
   <div class="media-body">
     <% if User.find_by(twid: tweet.user.id.to_s) != nil %>
-    <p><%= link_to tweet.user.name, "#{tweet.user.screen_name}" %></p>
+    <p><%= link_to tweet.user.name, "/users/#{tweet.user.screen_name}" %></p>
     <% else %>
     <p><%= tweet.user.name  %></p>
     <% end %>

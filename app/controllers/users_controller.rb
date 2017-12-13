@@ -20,6 +20,9 @@ class UsersController < ApplicationController
 
     @tweets = @client.user_timeline(params[:id].to_s)
 
+  rescue Twitter::Error::Unauthorized
+  #鍵垢orAPIエラー等だった場合ここにくる
+    @unauthorized_occured = true
   end
 
   def report
