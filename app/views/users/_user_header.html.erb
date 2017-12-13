@@ -4,9 +4,9 @@
   <% icon_path = get_twpic_uri(acc) %>
   <%= link_to image_tag(icon_path, size: "96x96" , alt: acc.name, class: "mr-3 rounded-circle"), @user_tw_account.uri.to_s, target:"_new" %>
   <div class="media-body">
-    <h3 class="mt-0"><%= @user_tw_account.name %></h3>
+    <h4 class="mt-0"><%= @user_tw_account.name %></h4>
     <% if user != current_user %>
-      <h4 class="mt-0"><%= link_to "Twitterページを見る", acc.url.to_s, target:"_new" %></h2>
+      <p><%= link_to "Twitterページを見る", acc.url.to_s, target:"_new" %></p>
     <% end %>
     <p>Score: <%= user.get_score(nil) %></p>
   </div>

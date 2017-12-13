@@ -1,2 +1,12 @@
-<p><%= tweet.user.name %></p>
-<p><%= tweet.full_text %></p>
+<div class="media">
+  <%= image_tag(get_twpic_uri_small(tweet.user), size: "48x48" , alt: tweet.user.name, class: "mr-3") %>
+  <div class="media-body">
+    <% if @friends.select{|f| f.twid == tweet.user.id.to_s}.count != 0 %>
+    <p><%= link_to tweet.user.name, "#{tweet.user.screen_name}" %></p>
+    <% else %>
+    <p><%= tweet.user.name  %></p>
+    <% end %>
+    <p><%= tweet.full_text %></p>
+  </div>
+</div>
+<hr>
