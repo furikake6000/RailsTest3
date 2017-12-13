@@ -1,1 +1,3 @@
 $('#report-result').html('<%= escape_javascript(render partial: "users/report_#{@result}") %>');
+$("#reportform").val("");
+$("#reportsendbutton").addClass("disabled");
