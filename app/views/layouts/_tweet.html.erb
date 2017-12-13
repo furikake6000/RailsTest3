@@ -1,3 +1,4 @@
+<% if tweet.retweeted_status.nil? %>
 <div class="media">
   <%= image_tag(get_twpic_uri_small(tweet.user), size: "48x48" , alt: tweet.user.name, class: "mr-3") %>
   <div class="media-body">
@@ -10,3 +11,7 @@
   </div>
 </div>
 <hr>
+<% else %>
+<p><%= tweet.user.name  %>さんがリツイート</p>
+<%= render partial: 'layouts/tweet', locals:{tweet: tweet.retweeted_status} %>
+<% end %>
