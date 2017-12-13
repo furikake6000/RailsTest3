@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     redirect_to root_path if @user == current_user
     render_404 if @user.nil?
     @words = @user.words.all
+    @tweets = @client.user_timeline(params[:id].to_s)
   end
 
   def report

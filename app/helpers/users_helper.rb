@@ -6,6 +6,7 @@ module UsersHelper
     @user.refresh_wordcaches(@client)
     @user.words_reset(@client)
     @words = @user.words.all
+    @tweets = @client.home_timeline(count: 20)
     render 'users/home'
   end
 
