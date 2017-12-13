@@ -5,12 +5,21 @@ class UsersController < ApplicationController
     @client = client_new
     @user_tw_account = @client.user(params[:id].to_s)
     @user = User.find_by(twid: @user_tw_account.id)
+
     #自分自身を選択していたらルートにリダイレクト
     redirect_to root_path if @user == current_user
     render_404 if @user.nil?
+
+    #Words取得
     @words = @user.words.all
+    words_p = @words.partition{|w| w.alive?}
+    @todayswords = words_p[0]
+    @deadwords = words_p[1]
+
     @friends = get_friends(@client)
+
     @tweets = @client.user_timeline(params[:id].to_s)
+
   end
 
   def report

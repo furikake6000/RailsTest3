@@ -1,13 +1,23 @@
 module UsersHelper
   def render_users_home
     @client = client_new
+
     @user = current_user
     @user_tw_account = @client.user(current_user.twid.to_i)
+
     @user.refresh_wordcaches(@client)
     @user.words_reset(@client)
+
+    #Words取得
     @words = @user.words.all
+    words_p = @words.partition{|w| w.alive?}
+    @todayswords = words_p[0]
+    @deadwords = words_p[1]
+
     @tweets = @client.home_timeline(count: 20)
+
     @friends = get_friends(@client)
+    
     render 'users/home'
   end
 

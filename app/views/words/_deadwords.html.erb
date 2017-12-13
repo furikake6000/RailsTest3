@@ -7,7 +7,5 @@
       <th scope="col">獲得スコア</th>
     </tr>
   </thead>
-  <% @words.each do |word| %>
-    <%= render word if !word.alive? %>
-  <% end %>
+  <%= render @deadwords %>
 </table>
