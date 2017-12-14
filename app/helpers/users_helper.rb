@@ -6,8 +6,8 @@ module UsersHelper
     @user_tw_account = @client.user(current_user.twid.to_i)
 
     #鍵垢判定
-    if @user.is_secret != @user_tw_account.protected
-      @user.is_secret = @user_tw_account.protected
+    if @user.is_secret != @user_tw_account.protected?
+      @user.is_secret = @user_tw_account.protected?
       @user.save
     end
 

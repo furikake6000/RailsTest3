@@ -1,4 +1,4 @@
-<% @ranking = User.limit(10) %>
+<% @ranking = User.where("is_secret = ?", false).limit(10) %>
 
 <table class="table">
   <thead>
