@@ -5,9 +5,9 @@
   <%= link_to image_tag(icon_path, size: "96x96" , alt: acc.name, class: "mr-3 rounded-circle"), @user_tw_account.uri.to_s, target:"_new" %>
   <div class="media-body">
     <h4 class="mt-0"><%= @user_tw_account.name %></h4>
-    <% if user != current_user %>
-      <p><%= link_to "Twitterページを見る", acc.url.to_s, target:"_new" %></p>
-    <% end %>
+
+    <p><%= link_to "@#{@user_tw_account.screen_name}", acc.url.to_s, target:"_new" %></p>
+
     <p>Score: <%= user.get_score(nil) %></p>
   </div>
 </div>

@@ -6,9 +6,7 @@
   <div class="media-body">
     <h5 class="mt-0"><%= link_to acc.name, "/users/#{acc.screen_name}" %></h5>
     <%= "@#{acc.screen_name}" %>
-    <p>
-      Score: <%= user.get_score(nil) %>
-      <%= link_to "Twitter", acc.url.to_s, target:"_new" %>
-    </p>
+    <p><%= link_to "Twitter", acc.url.to_s, target:"_new" %></p>
+    <p>Score: <%= user.get_score(nil) %></p>
   </div>
 </div>

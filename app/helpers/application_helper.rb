@@ -28,4 +28,14 @@ module ApplicationHelper
     print(media.tempfile)
     Twitter::REST::Request.new(client, :multipart_post, 'https://upload.twitter.com/1.1/media/upload.json', key: :media, file: media.tempfile).perform
   end
+
+  def smart_time_to_str(time)
+    if time.dup.localtime("+09:00").to_date == Time.now.localtime("+09:00").to_date
+      #日付が今日だった場合、時刻のみ表示
+      time.strftime('%H時%M分')
+    else
+      #月日と時刻を表示
+      time.strftime('%m月%d日 %H時%M分')
+    end
+  end
 end

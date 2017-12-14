@@ -1,26 +1,20 @@
-<% userfound = (User.find_by(twid: tweet.user.id.to_s) != nil) %>
 <% if tweet.retweeted_status.nil? %>
 <div class="media tweet mt-0 mb-3">
-  <% if userfound %>
-  <%= link_to image_tag(get_twpic_uri_small(tweet.user), size: "48x48" , alt: tweet.user.name, class: "mr-3"), "/users/#{tweet.user.screen_name}" %>
-  <% else %>
   <%= image_tag(get_twpic_uri_small(tweet.user), size: "48x48" , alt: tweet.user.name, class: "mr-3") %>
-  <% end %>
 
   <div class="media-body">
-    <% if userfound %>
-    <h5 class="mt-0"><%= link_to tweet.user.name, "/users/#{tweet.user.screen_name}" %></h5>
-    <% else %>
-    <h5 class="mt-0"><%= tweet.user.name  %></h5>
-    <% end %>
-    <p><%= excludelinks(tweet.full_text) %></p>
+    <p class="mb-1"><%= tweet.user.name  %></p>
+    <p class="mb-1 tweetcontent"><%= excludelinks(tweet.full_text) %></p>
     <% tweet.uris.each do |uri| %>
       <p><%= link_to uri.expanded_url.to_s, uri.url.to_s, target: "_new" %></p>
     <% end %>
     <% tweet.media.each do |media| %>
       <%= link_to image_tag(media.media_url.to_s, size: "48x48"),media.media_url.to_s, target: "_new"  %>
     <% end %>
-    <p><%= "#{tweet.retweet_count}リツイート、#{tweet.favorite_count}いいね" %></p>
+    <p class="mb-1 tweetstatus">
+      <%= " #{smart_time_to_str(tweet.created_at)}" %>
+      <%= " #{tweet.retweet_count}リツイート" if tweet.retweet_count != 0 %>
+      <%= " #{tweet.favorite_count}いいね" if tweet.favorite_count != 0  %></p>
   </div>
 </div>
 <hr>
