@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171214134413) do
+ActiveRecord::Schema.define(version: 20171214134911) do
 
   create_table "quests", force: :cascade do |t|
     t.string "type"
@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 20171214134413) do
     t.integer "score", default: 0
     t.datetime "word_updated_at"
     t.integer "current_score_cache"
+    t.index ["score"], name: "index_users_on_score"
+    t.index ["twid"], name: "index_users_on_twid", unique: true
   end
 
   create_table "words", force: :cascade do |t|
