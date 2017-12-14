@@ -14,4 +14,13 @@ module ApplicationHelper
     linkstr = "https://twitter.com/intent/tweet?" + "text=" + string + "&hashtags=F国からのスパイ"
     return URI.escape(linkstr)
   end
+
+  def excludelinks(string)
+    cpstr = string.dup
+    URI.extract(cpstr,['http','https']).uniq.each do |url|
+      cpstr.slice!(url)
+      #これだと同じURLが2回以上登場する場合うまくいかないが想定しない
+    end
+    return cpstr
+  end
 end

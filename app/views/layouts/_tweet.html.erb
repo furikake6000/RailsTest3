@@ -1,5 +1,5 @@
 <% if tweet.retweeted_status.nil? %>
-<div class="media">
+<div class="media mt-0">
   <%= image_tag(get_twpic_uri_small(tweet.user), size: "48x48" , alt: tweet.user.name, class: "mr-3") %>
   <div class="media-body">
     <% if User.find_by(twid: tweet.user.id.to_s) != nil %>
@@ -7,7 +7,13 @@
     <% else %>
     <p><%= tweet.user.name  %></p>
     <% end %>
-    <p><%= tweet.full_text %></p>
+    <p><%= excludelinks(tweet.full_text) %></p>
+    <% tweet.uris.each do |uri| %>
+      <p><%= link_to uri.expanded_url.to_s, uri.url.to_s, target: "_new" %></p>
+    <% end %>
+    <% tweet.media.each do |media| %>
+      <%= link_to image_tag(media.media_url.to_s, size: "48x48"),media.media_url.to_s, target: "_new"  %>
+    <% end %>
   </div>
 </div>
 <hr>
