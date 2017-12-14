@@ -6,6 +6,10 @@ class StaticPagesController < ApplicationController
     end
   end
 
+  def ranking
+
+  end
+
   def about
   end
 

@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get '/auth/twitter/callback', to:'twitter_sessions#create'
   get '/auth/failure', to:'twitter_sessions#failure'
 
+  get '/ranking', to:'static_pages#ranking'
+
   get '/logout', to:'twitter_sessions#destroy'
   get '/about', to:'static_pages#about'
   get '/info', to:'static_pages#info'
