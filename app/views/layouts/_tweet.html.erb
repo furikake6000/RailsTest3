@@ -1,8 +1,14 @@
+<% userfound = (User.find_by(twid: tweet.user.id.to_s) != nil) %>
 <% if tweet.retweeted_status.nil? %>
 <div class="media tweet mt-0 mb-3">
+  <% if userfound %>
+  <%= link_to image_tag(get_twpic_uri_small(tweet.user), size: "48x48" , alt: tweet.user.name, class: "mr-3"), "/users/#{tweet.user.screen_name}" %>
+  <% else %>
   <%= image_tag(get_twpic_uri_small(tweet.user), size: "48x48" , alt: tweet.user.name, class: "mr-3") %>
+  <% end %>
+
   <div class="media-body">
-    <% if User.find_by(twid: tweet.user.id.to_s) != nil %>
+    <% if userfound %>
     <h5 class="mt-0"><%= link_to tweet.user.name, "/users/#{tweet.user.screen_name}" %></h5>
     <% else %>
     <h5 class="mt-0"><%= tweet.user.name  %></h5>
