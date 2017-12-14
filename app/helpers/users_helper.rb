@@ -5,6 +5,12 @@ module UsersHelper
     @user = current_user
     @user_tw_account = @client.user(current_user.twid.to_i)
 
+    #鍵垢判定
+    if @user.is_secret != @user_tw_account.protected
+      @user.is_secret = @user_tw_account.protected
+      @user.save
+    end
+
     @user.refresh_wordcaches(@client)
     @user.words_reset(@client)
 
@@ -17,7 +23,7 @@ module UsersHelper
     @tweets = @client.home_timeline(count: 20)
 
     @friends = get_friends(@client)
-    
+
     render 'users/home'
   end
 
