@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  succeed: false
+  user: one
+  word: one
+
+two:
+  succeed: false
+  user: two
+  word: two
