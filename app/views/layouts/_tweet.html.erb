@@ -20,6 +20,7 @@
     <% tweet.media.each do |media| %>
       <%= link_to image_tag(media.media_url.to_s, size: "48x48"),media.media_url.to_s, target: "_new"  %>
     <% end %>
+    <p><%= "#{tweet.retweet_count}リツイート、#{tweet.favorite_count}いいね" %></p>
   </div>
 </div>
 <hr>
