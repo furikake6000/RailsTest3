@@ -1,4 +1,4 @@
-<% if @unauthorized_occured %>
+<% if !@unauthorized_occured %>
 <% @tweets.each do |t| %>
 <%= render partial: 'layouts/tweet', locals:{tweet: t} %>
 <% end %>
