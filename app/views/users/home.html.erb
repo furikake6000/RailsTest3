@@ -1,12 +1,12 @@
 <div class="row">
-  <div class="col-lg-4 col-sm-12">
+  <div class="col-md-8 col-sm-12">
     <%= render 'users/user_header', user: @user %>
 
     <%= render partial: 'users/detected' %>
 
     <div class="card bg-light mb-3">
       <div class="card-body">
-        <h3 class="card-title">Mission</h3>
+        <h3 class="card-title">あなたの今日のミッション</h3>
         <p class="card-text">本日のあなたの暗号は
         <b>「<%= @todayswords.join("」、「") %>」</b>
         です。</p>
@@ -15,11 +15,15 @@
         <%= render partial: 'words/words' %>
       </div>
     </div>
+
+    <div class="card bg-light mb-3">
+      <div class="card-body">
+        <h3 class="card-title">あなたの昨日のミッション</h3>
+        <%= render partial: 'words/deadwords' %>
+      </div>
+    </div>
   </div>
-  <div class="col-lg-5 d-none d-md-block">
-    <%= render partial: 'users/timeline' %>
-  </div>
-  <div class="col-lg-3 col-sm-12">
+  <div class="col-md-4 col-sm-12">
     <%= render partial: 'users/friends' %>
   </div>
 </div>
