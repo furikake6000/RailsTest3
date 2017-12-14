@@ -1,11 +1,11 @@
 <% if tweet.retweeted_status.nil? %>
-<div class="media mt-0">
+<div class="media tweet mt-0 mb-3">
   <%= image_tag(get_twpic_uri_small(tweet.user), size: "48x48" , alt: tweet.user.name, class: "mr-3") %>
   <div class="media-body">
     <% if User.find_by(twid: tweet.user.id.to_s) != nil %>
-    <p><%= link_to tweet.user.name, "/users/#{tweet.user.screen_name}" %></p>
+    <h5 class="mt-0"><%= link_to tweet.user.name, "/users/#{tweet.user.screen_name}" %></h5>
     <% else %>
-    <p><%= tweet.user.name  %></p>
+    <h5 class="mt-0"><%= tweet.user.name  %></h5>
     <% end %>
     <p><%= excludelinks(tweet.full_text) %></p>
     <% tweet.uris.each do |uri| %>
@@ -18,6 +18,6 @@
 </div>
 <hr>
 <% else %>
-<p><%= tweet.user.name  %>さんがリツイート</p>
+<p class="retweet"><%= tweet.user.name  %>さんがリツイート</p>
 <%= render partial: 'layouts/tweet', locals:{tweet: tweet.retweeted_status} %>
 <% end %>

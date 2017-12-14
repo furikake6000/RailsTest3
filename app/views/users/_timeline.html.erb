@@ -1,7 +1,11 @@
-<% if !@unauthorized_occured %>
-<% @tweets.each do |t| %>
-<%= render partial: 'layouts/tweet', locals:{tweet: t} %>
-<% end %>
-<% else %>
-<%= render partial: 'users/timeline_unauthorized_error' %>
-<% end %>
+<div class="card">
+  <div class="card-body">
+    <% if !@unauthorized_occured %>
+    <% @tweets.each do |t| %>
+    <%= render partial: 'layouts/tweet', locals:{tweet: t} %>
+    <% end %>
+    <% else %>
+    <%= render partial: 'users/timeline_unauthorized_error' %>
+    <% end %>
+  </div>
+</div>

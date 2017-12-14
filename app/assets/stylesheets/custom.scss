@@ -23,11 +23,13 @@ textarea{
 }
 
 /*Twitter post view*/
-.post{
-  background-color: #EEEEEE;
-  border-radius: 0.5em;
-  padding: 5px;
-  margin: 10px 0px;
+.tweet{
+  font-size: 80%;
+}
+.retweet{
+  color: #888888;
+  font-size: 80%;
+  margin: 0px;
 }
 
 /*Quest view*/
