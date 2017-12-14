@@ -7,7 +7,7 @@ class StaticPagesController < ApplicationController
   end
 
   def ranking
-
+    @client = client_new
   end
 
   def about
