@@ -14,4 +14,7 @@ Rails.application.routes.draw do
 
   post '/users/report', to:'users#report'
 
+  get '/sandbox', to:'static_pages#sandbox'
+  post '/sandbox/postimage', to: 'static_pages#postimage'
+
 end

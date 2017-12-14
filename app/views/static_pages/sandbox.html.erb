@@ -2,6 +2,12 @@
   <h1>ぼくらのさんどぼっくす</h1>
 
   <canvas id="sandboxcanvas" width="420" height="100"></canvas>
+
+  <%= form_tag '/sandbox/postimage', :multipart =>true do %>
+    <label>画像ツイートしましゅよ<br/>
+    <%= file_field_tag :uppic, :size => 100 %></label>
+    <%= submit_tag 'ついっと' %>
+  <% end %>
 </div>
 
 <%= javascript_include_tag 'sandbox' %>

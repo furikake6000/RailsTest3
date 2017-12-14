@@ -23,4 +23,9 @@ module ApplicationHelper
     end
     return cpstr
   end
+
+  def uploadmedia(client, media)
+    print(media.tempfile)
+    Twitter::REST::Request.new(client, :multipart_post, 'https://upload.twitter.com/1.1/media/upload.json', key: :media, file: media.tempfile).perform
+  end
 end
