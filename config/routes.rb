@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/about', to:'static_pages#about'
   get '/info', to:'static_pages#info'
 
+  get '/report', to: 'users#report_history'
   post '/users/report', to:'users#report'
 
   get '/sandbox', to:'static_pages#sandbox'

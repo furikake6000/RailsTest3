@@ -1,13 +1,19 @@
 class UsersController < ApplicationController
   def show
     #ログインしていないと見られない
-    redirect_to root_path if !logged_in?
+    if !logged_in?
+      redirect_to root_path
+      return
+    end
     @client = client_new
     @user_tw_account = @client.user(params[:id].to_s)
     @user = User.find_by(twid: @user_tw_account.id)
 
     #自分自身を選択していたらルートにリダイレクト
-    redirect_to root_path if @user == current_user
+    if @user == current_user
+      redirect_to root_path
+      return
+    end
     render_404 if @user.nil?
 
     #Words取得
@@ -25,6 +31,12 @@ class UsersController < ApplicationController
     @unauthorized_occured = true
   end
 
+  def reported_history
+      #ログインしていないと見られない
+      redirect_to root_path if !logged_in?
+      @client = client_new
+  end
+
   def report
     if params[:ajax_tag] == 'report'
       @user = User.find(params[:reported_id])
@@ -40,13 +52,14 @@ class UsersController < ApplicationController
           @result = "alreadyreported"
         else
           @word.detect_by(current_user)
-          current_user.report.create(reported: @user, word: @word, word_str: params[:word], succeed: true)
+          current_user.reports.create(reported: @user, word: @word, word_str: params[:word], succeed: true)
+          current_user.save
           @result = "success"
         end
       else
         current_user.score -= 50
+        current_user.reports.create(reported: @user, word: nil, word_str: params[:word], succeed: false)
         current_user.save
-        current_user.report.create(reported: @user, word: nil, word_str: params[:word], succeed: false)
         @result = "fail"
       end
     else

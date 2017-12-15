@@ -1,0 +1,24 @@
+<h2>摘発履歴</h2>
+<% rphists = current_user.reports.all.order("created_at DESC") %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">相手</th>
+      <th scope="col">単語</th>
+      <th scope="col">成否</th>
+      <th scope="col">摘発時刻</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% rphists.each do |rp| %>
+    <% reported = @client.user(rp.reported.twid.to_i) %>
+    <tr>
+      <td><%= "#{reported.name}(@#{reported.screen_name})" %></td>
+      <td><%= rp.word_str %></td>
+      <td><%= rp.succeed ? "成功" : "失敗" %></td>
+      <td><%= smart_time_to_str(rp.created_at) %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
