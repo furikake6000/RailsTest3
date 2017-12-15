@@ -5,8 +5,6 @@ class Word < ApplicationRecord
   validates :user_id, presence: true
   validates :name, presence: true
 
-  has_one :report
-
   def initialize(attributes = {})
     super
     self.name = pickAWord

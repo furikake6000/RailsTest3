@@ -61,7 +61,8 @@ class UsersController < ApplicationController
         end
       else
         current_user.score -= 50
-        current_user.reports.create(reported: @user, word_str: params[:word], succeed: false)
+        r = current_user.reports.create(reported: @user, word_str: params[:word], succeed: false)
+        print(r)
         current_user.save
         @result = "fail"
       end
