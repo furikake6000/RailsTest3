@@ -31,9 +31,12 @@ class UsersController < ApplicationController
     @unauthorized_occured = true
   end
 
-  def reported_history
+  def report_history
       #ログインしていないと見られない
-      redirect_to root_path if !logged_in?
+      if !logged_in?
+        redirect_to root_path
+        return
+      end
       @client = client_new
   end
 
