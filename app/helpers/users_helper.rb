@@ -36,11 +36,12 @@ module UsersHelper
   end
 
   def get_friends(client)
-    @friends = []
-    @client.friend_ids.each_slice(1000) do |allfriends|
-      @friends.concat(User.where("twid IN (?)", allfriends.map(&:to_s)))
+    friends = []
+    client.friend_ids.each_slice(1000) do |allfriends|
+      friends.concat(User.where("twid IN (?)", allfriends.map(&:to_s)))
     end
-    @friends.push(current_user)
+    friends.push(current_user)
+    friends.sort_by!{|a| a.get_score(nil) * -1 }
   end
 
   private

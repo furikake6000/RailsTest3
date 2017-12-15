@@ -86,7 +86,7 @@ class User < ApplicationRecord
   end
 
   def get_score(client)
-    self.current_score_cache = self.score + self.get_todays_score(client)
+    self.current_score_cache = self.score + self.todayscore
     self.save
     return self.current_score_cache
   end

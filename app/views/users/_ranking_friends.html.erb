@@ -1,6 +1,6 @@
-<h5>デイリーランキング</h5>
+<h5>ライバル内ランキング</h5>
 
-<% @ranking = User.where("is_secret = ?", false).order(todayscore: :desc).limit(10) %>
+<% @friends = get_friends(@client) %>
 
 <table class="table">
   <thead>
@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @ranking.each_with_index do |ranker, i| %>
+    <% @friends.each_with_index do |ranker, i| %>
     <% rankeracc = @client.user(ranker.twid.to_i) %>
     <tr>
       <th scope="row"><%= i + 1 %></th>
