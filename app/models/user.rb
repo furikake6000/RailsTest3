@@ -107,9 +107,11 @@ class User < ApplicationRecord
     yesterdayscore = 0
     self.words.each do |word|
       yesterdayscore += word.get_score(self, client) if word.yesterday?
+      print("poyopoyopoyo\n") if word.yesterday?
     end
     self.reports.each do |rp|
       yesterdayscore += rp.succeed ? 100 : -50 if rp.yesterday?
+      print("piyopiyopiyo\n") if rp.yesterday?
     end
     return yesterdayscore
   end

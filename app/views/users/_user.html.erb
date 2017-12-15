@@ -7,8 +7,6 @@
     <h5 class="mt-0"><%= link_to acc.name, "/users/#{acc.screen_name}" %></h5>
     <%= "@#{acc.screen_name}" %>
     <%= link_to "(Twitter)", acc.url.to_s, target:"_new" %>
-    <% if !score_invisible %>
     <p class="user-score">Score: <%= user.get_score(nil) %></p>
-    <% end %>
   </div>
 </div>

@@ -7,6 +7,6 @@ class Report < ApplicationRecord
   end
 
   def yesterday?
-    return (self.created_at.localtime("+09:00").to_date == Time.now.localtime("+09:00").yesterday)
+    return (self.created_at.localtime("+09:00").to_date == Time.now.localtime("+09:00").to_date.yesterday)
   end
 end

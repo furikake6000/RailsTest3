@@ -8,6 +8,6 @@
     </tr>
   </thead>
   <% @deadwords.each do |dw| %>
-    <%= render dw if dw.created_at.dup.localtime("+09:00").to_date = Time.zone.yesterday %>
+    <%= render dw if dw.created_at.dup.localtime("+09:00").to_date == Time.zone.yesterday %>
   <% end %>
 </table>
