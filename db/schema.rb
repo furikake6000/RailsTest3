@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171215022946) do
+ActiveRecord::Schema.define(version: 20171215113445) do
 
   create_table "quests", force: :cascade do |t|
     t.string "type"
@@ -29,13 +29,11 @@ ActiveRecord::Schema.define(version: 20171215022946) do
   create_table "reports", force: :cascade do |t|
     t.boolean "succeed"
     t.integer "user_id"
-    t.integer "word_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "reported_id"
     t.string "word_str"
     t.index ["user_id"], name: "index_reports_on_user_id"
-    t.index ["word_id"], name: "index_reports_on_word_id"
   end
 
   create_table "users", force: :cascade do |t|
