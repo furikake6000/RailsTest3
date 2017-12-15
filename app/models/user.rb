@@ -63,6 +63,8 @@ class User < ApplicationRecord
     todayswords.each do |w|
       w.save
     end
+
+    self.get_todays_score(nil)
   end
 
   def words_reset(client)
