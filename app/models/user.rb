@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   has_many :reports
   has_many :words, dependent: :destroy
+  has_many :reported_reports, class_name: 'Report', :foreign_key => 'reported_id'
 
   def User.find_or_create_from_auth(auth)
     twid = auth[:uid]

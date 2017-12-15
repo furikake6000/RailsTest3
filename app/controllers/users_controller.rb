@@ -31,8 +31,7 @@ class UsersController < ApplicationController
       @client = client_new
       @user_tw_account = @client.user(@user.twid.to_i)
       render_404 if @user.nil?
-      @wordstr = params[:word]
-      @word = @user.words.find_by(name: @wordstr)
+      @word = @user.words.find_by(name: params[:word])
       if !(@word.nil?)
         if !(@word.report_available?)
           #通報期限切れ
@@ -41,11 +40,13 @@ class UsersController < ApplicationController
           @result = "alreadyreported"
         else
           @word.detect_by(current_user)
+          current_user.report.create(reported: @user, word: @word, word_str: params[:word], succeed: true)
           @result = "success"
         end
       else
         current_user.score -= 50
         current_user.save
+        current_user.report.create(reported: @user, word: nil, word_str: params[:word], succeed: false)
         @result = "fail"
       end
     else
