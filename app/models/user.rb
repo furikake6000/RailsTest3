@@ -87,10 +87,20 @@ class User < ApplicationRecord
   def get_score(client)
     self.current_score_cache = self.score
     self.words.each do |word|
-      self.current_score_cache += word.get_score(self, client)
+      self.current_score_cache += word.get_score(self, client) if word.alive?
     end
     self.save
     return self.current_score_cache
   end
 
+  def get_todays_score(client)
+    todaysscore = 0
+    self.words.each do |word|
+      todaysscore += word.get_score(self, client) if word.alive?
+    end
+    self.reports.each do |rp|
+      todaysscore += rp.succeed ? 100 : -50 if rp.today?
+    end
+    return todaysscore
+  end
 end

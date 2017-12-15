@@ -3,9 +3,10 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Rank</th>
-      <th scope="col">User</th>
-      <th scope="col">Score</th>
+      <th scope="col">ランキング</th>
+      <th scope="col">ユーザ情報</th>
+      <th scope="col">スコア</th>
+      <th scope="col">本日スコア</th>
     </tr>
   </thead>
   <tbody>
@@ -15,6 +16,7 @@
       <th scope="row"><%= i + 1 %></th>
       <td><%= render ranker %></td>
       <td><%= ranker.get_score(nil) %></td>
+      <td><%= int_to_str_with_sign(ranker.get_todays_score(nil)) %></td>
     </tr>
     <% end %>
   </tbody>

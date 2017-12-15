@@ -38,4 +38,12 @@ module ApplicationHelper
       time.strftime('%m月%d日 %H時%M分')
     end
   end
+
+  def int_to_str_with_sign(int)
+    if int >= 0
+      return "+" + int.to_s
+    else
+      return int.to_s
+    end
+  end
 end
