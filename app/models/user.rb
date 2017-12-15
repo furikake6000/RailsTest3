@@ -41,7 +41,7 @@ class User < ApplicationRecord
         tweets.each do |tweet|
           tweetdate = tweet.created_at.dup.localtime("+09:00").to_date
           if tweetdate == Time.zone.today
-            throw :finish if todayswords.empty?
+            #throw :finish if todayswords.empty? ←前日の単語カウントが0になるバグの原因
             todayswords.each do |w|
               w.countcache += tweet.full_text.scan(/(?=#{w.name})/).count
             end
@@ -69,38 +69,48 @@ class User < ApplicationRecord
     #2日以上前の単語を削除する
     self.words.each do |word|
       if word.created_at.localtime("+09:00").to_date < Time.zone.yesterday
-        #削除される時にスコア加算
-        self.score += word.get_score(self, client)
         word.destroy
       end
     end
-    #日付変わったら5個単語を生成
+    #日付変わったら
     if self.word_updated_at.nil? || self.word_updated_at.localtime("+09:00").to_date <= Time.zone.yesterday
+      #スコア加算
+      self.score += self.get_yesterdays_score(nil)
       self.word_updated_at = Time.now
       self.save
-      5.times do
+      #7個単語を生成
+      7.times do
         word = self.words.create
       end
     end
   end
 
   def get_score(client)
-    self.current_score_cache = self.score
-    self.words.each do |word|
-      self.current_score_cache += word.get_score(self, client) if word.alive?
-    end
+    self.current_score_cache = self.score + self.get_todays_score(client)
     self.save
     return self.current_score_cache
   end
 
   def get_todays_score(client)
-    todaysscore = 0
+    self.todayscore = 0
     self.words.each do |word|
-      todaysscore += word.get_score(self, client) if word.alive?
+      self.todayscore += word.get_score(self, client) if word.alive?
     end
     self.reports.each do |rp|
-      todaysscore += rp.succeed ? 100 : -50 if rp.today?
+      self.todayscore += rp.succeed ? 100 : -50 if rp.today?
     end
-    return todaysscore
+    self.save
+    return self.todayscore
+  end
+
+  def get_yesterdays_score(client)
+    yesterdayscore = 0
+    self.words.each do |word|
+      yesterdayscore += word.get_score(self, client) if word.yesterday?
+    end
+    self.reports.each do |rp|
+      yesterdayscore += rp.succeed ? 100 : -50 if rp.yesterday?
+    end
+    return yesterdayscore
   end
 end
