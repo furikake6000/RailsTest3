@@ -88,6 +88,7 @@ class User < ApplicationRecord
   end
 
   def get_score(client)
+    self.get_todays_score if self.todayscore.nil?
     self.current_score_cache = self.score + self.todayscore
     self.save
     return self.current_score_cache
