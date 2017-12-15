@@ -6,7 +6,6 @@
       <th scope="col">Rank</th>
       <th scope="col">User</th>
       <th scope="col">Score</th>
-      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -16,7 +15,6 @@
       <th scope="row"><%= i + 1 %></th>
       <td><%= render ranker %></td>
       <td><%= ranker.get_score(nil) %></td>
-      <td><%= link_to "Twitter", rankeracc.url.to_s, target:"_new" %></td>
     </tr>
     <% end %>
   </tbody>
