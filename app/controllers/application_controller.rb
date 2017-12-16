@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   #Sessionsに関するヘルパーは誰でも使えるようにする
   include TwitterSessionsHelper
-  #Questsに関するヘルパーは(ry
-  include QuestsHelper
+  #Usersに関するヘルパーは(ry
   include UsersHelper
 end

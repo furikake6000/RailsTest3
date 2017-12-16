@@ -44,23 +44,4 @@ module UsersHelper
     friends.sort_by!{|a| a.get_score(nil) * -1 }
   end
 
-  private
-  #時間切れクエストを削除、更新
-    def quest_reset
-      #履歴削除
-      @quests.each do |quest|
-        if quest.created_at.tomorrow < Time.zone.now
-          quest.destroy
-        end
-      end
-
-      #新規生成
-      (4 - @quests.count).downto(0) do |n|
-        Quest.generate_new(current_user, @client)
-        #@quests更新
-        @quests = @user.quests.all if n==0
-      end
-    end
-
-
 end
