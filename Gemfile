@@ -5,11 +5,11 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-
 gem 'rails', '~> 5.1.4'
 gem 'bootstrap', '~> 4.0.0.beta2.1'
 gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
+gem 'therubyracer'
 gem 'uglifier', '>= 1.3.0'
 
 gem 'will_paginate',           '3.1.5'
