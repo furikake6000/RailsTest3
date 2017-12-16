@@ -33,6 +33,7 @@ class StaticPagesController < ApplicationController
     unless logged_in? && current_user.admin
       redirect_to root_path and return
     end
+    @client = client_new
     @users = User.paginate(page: params[:page])
   end
 end
