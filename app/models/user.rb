@@ -36,7 +36,7 @@ class User < ApplicationRecord
     #さかのぼるツイートごとに単語検索する
     catch :finish do
       1.upto(50) do |i|
-        tweets = client.user_timeline({user_id: self.twid, include_rts: false, page:i})
+        tweets = client.user_timeline({user_id: self.twid, include_rts: false, exclude_replies: true, page:i})
         print(i)
         tweets.each do |tweet|
           tweetdate = tweet.created_at.dup.localtime("+09:00").to_date
