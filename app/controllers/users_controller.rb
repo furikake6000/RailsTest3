@@ -46,6 +46,10 @@ class UsersController < ApplicationController
       @client = client_new
       @user_tw_account = @client.user(@user.twid.to_i)
       render_404 if @user.nil?
+      if params[:word].blank?
+        @result = "blank"
+        return
+      end
       @word = @user.words.find_by(name: params[:word])
       if !(@word.nil?)
         if !(@word.report_available?)
