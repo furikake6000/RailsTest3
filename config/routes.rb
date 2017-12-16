@@ -18,4 +18,6 @@ Rails.application.routes.draw do
   get '/sandbox', to:'static_pages#sandbox'
   post '/sandbox/postimage', to: 'static_pages#postimage'
 
+  get '/admin', to:'static_pages#admin'
+
 end
