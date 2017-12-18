@@ -9,7 +9,6 @@
   </thead>
   <tbody>
     <% @ranking.each_with_index do |ranker, i| %>
-    <% rankeracc = @client.user(ranker.twid.to_i) %>
     <tr>
       <th scope="row"><%= i + 1 %></th>
       <td><%= render ranker %></td>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171215135511) do
+ActiveRecord::Schema.define(version: 20171218124227) do
 
   create_table "quests", force: :cascade do |t|
     t.string "type"
@@ -46,6 +46,10 @@ ActiveRecord::Schema.define(version: 20171215135511) do
     t.boolean "admin", default: false
     t.boolean "is_secret"
     t.integer "todayscore"
+    t.string "screen_name"
+    t.string "name"
+    t.string "imgurl"
+    t.string "url"
     t.index ["current_score_cache"], name: "index_users_on_current_score_cache"
     t.index ["todayscore"], name: "index_users_on_todayscore"
     t.index ["twid"], name: "index_users_on_twid", unique: true

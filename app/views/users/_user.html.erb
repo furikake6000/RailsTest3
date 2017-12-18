@@ -1,12 +1,18 @@
-<% acc = @client.user(user.twid.to_i) %>
+<% if user.screen_name.nil? or user.screen_name.blank? %>
+  <% acc = @client.user(user.twid.to_i) %>
+  <% user.name = acc.name %>
+  <% user.screen_name = acc.screen_name %>
+  <% user.url = acc.url.to_s %>
+  <% user.imgurl = get_twpic_uri(acc) %>
+  <% user.save %>
+<% end %>
 
 <div class="media">
-  <% icon_path = get_twpic_uri(acc) %>
-  <%= link_to image_tag(icon_path, size: "64x64" , alt: acc.name, class: "mr-3 rounded-circle"), "/users/#{acc.screen_name}" %>
+  <%= link_to image_tag(user.imgurl, size: "64x64" , alt: user.name, class: "mr-3 rounded-circle"), "/users/#{user.screen_name}" %>
   <div class="media-body">
-    <h5 class="mt-0"><%= link_to acc.name, "/users/#{acc.screen_name}" %></h5>
-    <%= "@#{acc.screen_name}" %>
-    <%= link_to "(Twitter)", acc.url.to_s, target:"_new" %>
+    <h5 class="mt-0"><%= link_to user.name, "/users/#{user.screen_name}" %></h5>
+    <%= "@#{user.screen_name}" %>
+    <%= link_to "(Twitter)", user.url, target:"_new" %>
     <p class="user-score">Score: <%= user.get_score(nil) %> (today:<%= int_to_str_with_sign(user.todayscore) %>)</p>
   </div>
 </div>
