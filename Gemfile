@@ -30,6 +30,7 @@ gem 'jquery-ui-rails'
 
 #メンテナンス用
 gem 'turnout'
+gem 'newrelic_rpm'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
