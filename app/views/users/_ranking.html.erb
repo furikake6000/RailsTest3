@@ -1,7 +1,5 @@
 <h5>トータルランキング</h5>
 
-<% @ranking = User.where("is_secret = ?", false).limit(10) %>
-
 <table class="table">
   <thead>
     <tr>

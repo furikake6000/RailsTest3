@@ -7,6 +7,9 @@ class StaticPagesController < ApplicationController
   end
 
   def ranking
+    @ranking = User.where("is_secret = ?", false).limit(10)
+    @dailyranking = User.where("is_secret = ?", false).order(todayscore: :desc).limit(10)
+    @friends = get_friends(@client).limit(10)
     @client = client_new
   end
 
