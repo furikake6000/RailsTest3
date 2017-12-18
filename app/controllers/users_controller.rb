@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     @todayswords = words_p[0]
     @deadwords = words_p[1]
 
-    @friends = get_friends(@client)
+    #@friends = get_friends(@client)
 
     @tweets = @client.user_timeline(params[:id].to_s)
 
