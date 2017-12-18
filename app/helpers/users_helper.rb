@@ -20,9 +20,9 @@ module UsersHelper
     @todayswords = words_p[0]
     @deadwords = words_p[1]
 
-    @tweets = @client.home_timeline(count: 20)
+    #@tweets = @client.home_timeline(count: 20)
 
-    #@friends = get_friends(@client)
+    @friends = get_friends(@client)
 
     render 'users/home'
   end
