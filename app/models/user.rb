@@ -41,6 +41,8 @@ class User < ApplicationRecord
         #ツイートが空だったら抜ける（mix3@ｻﾀﾃﾞｰﾅｲﾄﾌｨｰﾊﾞｰ様、ありがとうございます）
         throw :finish if tweets.empty?
         tweets.each do |tweet|
+          next if tweet.retweeted?
+
           tweetdate = tweet.created_at.dup.localtime("+09:00").to_date
           if tweetdate == Time.zone.today
             #throw :finish if todayswords.empty? ←前日の単語カウントが0になるバグの原因
