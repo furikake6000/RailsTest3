@@ -12,7 +12,7 @@
       <%= link_to image_tag(media.media_url.to_s, size: "48x48"),media.media_url.to_s, target: "_new"  %>
     <% end %>
     <p class="mb-1 tweetstatus">
-      <%= " #{smart_time_to_str(tweet.created_at)}" %>
+      <%= " #{smart_time_to_str(tweet.created_at.localtime("+09:00"))}" %>
       <%= " #{tweet.retweet_count}リツイート" if tweet.retweet_count != 0 %>
       <%= " #{tweet.favorite_count}いいね" if tweet.favorite_count != 0  %></p>
   </div>
