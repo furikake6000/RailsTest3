@@ -35,22 +35,25 @@ class User < ApplicationRecord
 
     #さかのぼるツイートごとに単語検索する
     catch :finish do
-      client.user_timeline({user_id: self.twid, include_rts: false, exclude_replies: true}).each do |tweet|
+      1.upto(50) do |i|
+        tweets = client.user_timeline({user_id: self.twid, include_rts: false, exclude_replies: true, count:200, page:i})
         #ツイートが空だったら抜ける（mix3@ｻﾀﾃﾞｰﾅｲﾄﾌｨｰﾊﾞｰ様、ありがとうございます）
-        throw :finish if tweet.nil?
-        tweetdate = tweet.created_at.dup.localtime("+09:00").to_date
-        if tweetdate == Time.zone.today
-          #throw :finish if todayswords.empty? ←前日の単語カウントが0になるバグの原因
-          todayswords.each do |w|
-            w.countcache += tweet.full_text.scan(/(?=#{w.name})/).count
+        throw :finish if tweets.empty?
+        tweets.each do |tweet|
+          tweetdate = tweet.created_at.dup.localtime("+09:00").to_date
+          if tweetdate == Time.zone.today
+            #throw :finish if todayswords.empty? ←前日の単語カウントが0になるバグの原因
+            todayswords.each do |w|
+              w.countcache += tweet.full_text.scan(/(?=#{w.name})/).count
+            end
+          elsif tweetdate == Time.zone.yesterday
+            throw :finish if yesterdayswords.empty?
+            yesterdayswords.each do |w|
+              w.countcache += tweet.full_text.scan(/(?=#{w.name})/).count
+            end
+          else
+            throw :finish
           end
-        elsif tweetdate == Time.zone.yesterday
-          throw :finish if yesterdayswords.empty?
-          yesterdayswords.each do |w|
-            w.countcache += tweet.full_text.scan(/(?=#{w.name})/).count
-          end
-        else
-          throw :finish
         end
       end
     end
