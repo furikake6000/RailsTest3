@@ -41,18 +41,16 @@ class User < ApplicationRecord
         #ツイートが空だったら抜ける（mix3@ｻﾀﾃﾞｰﾅｲﾄﾌｨｰﾊﾞｰ様、ありがとうございます）
         throw :finish if tweets.empty?
         tweets.each do |tweet|
-          next if tweet.retweeted?
-
           tweetdate = tweet.created_at.dup.localtime("+09:00").to_date
           if tweetdate == Time.zone.today
             #throw :finish if todayswords.empty? ←前日の単語カウントが0になるバグの原因
             todayswords.each do |w|
-              w.countcache += tweet.full_text.scan(/(?=#{w.name})/).count
+              w.countcache += tweet.full_text.scan(/(?=#{w.name})/).count if !tweet.retweeted?
             end
           elsif tweetdate == Time.zone.yesterday
             throw :finish if yesterdayswords.empty?
             yesterdayswords.each do |w|
-              w.countcache += tweet.full_text.scan(/(?=#{w.name})/).count
+              w.countcache += tweet.full_text.scan(/(?=#{w.name})/).count if !tweet.retweeted?
             end
           else
             throw :finish
