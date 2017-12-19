@@ -1,17 +1,15 @@
-<% acc = @client.user(user.twid.to_i) %>
-<% user.name = acc.name %>
-<% user.screen_name = acc.screen_name %>
-<% user.url = acc.url.to_s %>
-<% user.imgurl = get_twpic_uri(acc) %>
+<% user.name = @user_tw_account.name %>
+<% user.screen_name = @user_tw_account.screen_name %>
+<% user.url = @user_tw_account.url.to_s %>
+<% user.imgurl = get_twpic_uri(@user_tw_account) %>
 <% user.save %>
 
 <div class="media mb-3">
-  <% icon_path = get_twpic_uri(acc) %>
-  <%= link_to image_tag(icon_path, size: "96x96" , alt: acc.name, class: "mr-3 rounded-circle"), @user_tw_account.uri.to_s, target:"_new" %>
+  <%= link_to image_tag(user.imgurl, size: "96x96" , alt: user.name, class: "mr-3 rounded-circle"), user.url, target:"_new" %>
   <div class="media-body">
-    <h4 class="mt-0"><%= @user_tw_account.name %></h4>
+    <h4 class="mt-0"><%= user.name %></h4>
 
-    <p><%= link_to "@#{@user_tw_account.screen_name}", acc.url.to_s, target:"_new" %></p>
+    <p><%= link_to "@#{user.screen_name}", user.url, target:"_new" %></p>
 
     <p>Score: <%= user.get_score(nil) %></p>
   </div>
