@@ -34,9 +34,10 @@ class User < ApplicationRecord
     end
 
     #さかのぼるツイートごとに単語検索する
+    query_params = { :user_id => self.twid, :exclude_replies => true, :count => 200 }
     catch :finish do
       1.upto(50) do |i|
-        tweets = client.user_timeline({user_id: self.twid, include_rts: false, exclude_replies: true, count:200, page:i})
+        tweets = client.user_timeline(query_params)
         #ツイートが空だったら抜ける（mix3@ｻﾀﾃﾞｰﾅｲﾄﾌｨｰﾊﾞｰ様、ありがとうございます）
         throw :finish if tweets.empty?
         tweets.each do |tweet|
@@ -55,6 +56,7 @@ class User < ApplicationRecord
             throw :finish
           end
         end
+        query_params[:max_id] = tweets.last.id
       end
     end
 
