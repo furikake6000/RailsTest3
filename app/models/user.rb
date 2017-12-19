@@ -78,10 +78,17 @@ class User < ApplicationRecord
       self.score += self.get_yesterdays_score(nil)
       self.word_updated_at = Time.now
       self.save
-      #7個単語を生成
-      7.times do
-        word = self.words.create
+    end
+
+    #もし今日の単語7個持っていなかったら
+    todaywordcount = 0
+    self.words.each do |word|
+      if word.created_at.localtime("+09:00").to_date == Time.zone.today
+        todaywordcount += 1
       end
+    end
+    (7 - todaywordcount).times do
+      word = self.words.create
     end
   end
 
@@ -108,11 +115,9 @@ class User < ApplicationRecord
     yesterdayscore = 0
     self.words.each do |word|
       yesterdayscore += word.get_score(self, client) if word.yesterday?
-      print("poyopoyopoyo\n") if word.yesterday?
     end
     self.reports.each do |rp|
       yesterdayscore += rp.succeed ? 100 : -50 if rp.yesterday?
-      print("piyopiyopiyo\n") if rp.yesterday?
     end
     return yesterdayscore
   end
