@@ -14,7 +14,11 @@ class ApplicationController < ActionController::Base
     render template: 'errors/error_404', status: 404, layout: 'application', content_type: 'text/html'
   end
 
-  def render_500
+  def render_500(e = nil)
+    if e
+      logger.error e
+      logger.error e.backtrace.join("\n")
+    end
     render template: 'errors/error_500', status: 500, layout: 'application', content_type: 'text/html'
   end
 end
