@@ -81,13 +81,8 @@ class User < ApplicationRecord
     end
 
     #もし今日の単語7個持っていなかったら
-<<<<<<< HEAD
     todaywordcount = 0
     self.words.each do |word|
-=======
-    self.words.each do |word|
-      todaywordcount = 0
->>>>>>> 15ffa1ae5dc2cb179af07d02bd1f1ce97524165c
       if word.created_at.localtime("+09:00").to_date == Time.zone.today
         todaywordcount += 1
       end
