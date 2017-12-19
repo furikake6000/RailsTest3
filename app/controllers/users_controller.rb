@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     if params[:ajax_tag] == 'report'
       @user = User.find(params[:reported_id])
       @client = client_new
-      @wordstr = params[:reported_id]
+      @wordstr = params[:word]
       @user_tw_account = @client.user(@user.twid.to_i)
       render_404 if @user.nil?
       if params[:word].blank?
