@@ -12,9 +12,17 @@
   </thead>
   <tbody>
     <% rphists.each do |rp| %>
-    <% reported = @client.user(rp.reported.twid.to_i) %>
+
+    <% if rp.reported.screen_name.nil? or rp.reported.screen_name.blank? %>
+      <% acc = @client.rp(rp.reported.twid.to_i) %>
+      <% rp.reported.name = acc.name %>
+      <% rp.reported.screen_name = acc.screen_name %>
+      <% rp.reported.url = acc.url.to_s %>
+      <% rp.reported.imgurl = get_twpic_uri(acc) %>
+      <% rp.reported.save %>
+    <% end %>
     <tr>
-      <td><%= "#{reported.name}(@#{reported.screen_name})" %></td>
+      <td><%= "#{rp.reported.name}(@#{rp.reported.screen_name})" %></td>
       <td><%= rp.word_str %></td>
       <td><%= rp.succeed ? "成功" : "失敗" %></td>
       <td><%= smart_time_to_str(rp.created_at) %></td>
