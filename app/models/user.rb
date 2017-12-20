@@ -75,11 +75,11 @@ class User < ApplicationRecord
         word.destroy
       end
     end
-    #日付変わったら
-    if self.word_updated_at.nil? || self.word_updated_at.localtime("+09:00").to_date <= Time.zone.yesterday
+    #1時を過ぎたら
+    if self.word_updated_at.nil? || self.word_updated_at.localtime("+09:00").to_date <= (Time.zone.now - 1.hour).to_date.yesterday
       #スコア加算
-      self.score += self.get_yesterdays_score(nil)
-      self.word_updated_at = Time.now
+      self.score += self.get_old_score(nil)
+      self.word_updated_at = Time.zone.now
       self.save
     end
 
@@ -108,7 +108,7 @@ class User < ApplicationRecord
       self.todayscore += word.get_score(self, client) if word.alive?
     end
     self.reports.each do |rp|
-      self.todayscore += rp.succeed ? 100 : 0 if rp.today?
+      self.todayscore += rp.succeed ? 0 : 0 if rp.today?
     end
     self.save
     return self.todayscore
@@ -120,8 +120,19 @@ class User < ApplicationRecord
       yesterdayscore += word.get_score(self, client) if word.yesterday?
     end
     self.reports.each do |rp|
-      yesterdayscore += rp.succeed ? 100 : 0 if rp.yesterday?
+      yesterdayscore += rp.succeed ? 0 : 0 if rp.yesterday?
     end
     return yesterdayscore
+  end
+
+  def get_old_score(client)
+    oldscore = 0
+    self.words.each do |word|
+      oldscore += word.get_score(self, client) if !word.today?
+    end
+    self.reports.each do |rp|
+      oldscore += rp.succeed ? 0 : 0 if !rp.today?
+    end
+    return oldscore
   end
 end
