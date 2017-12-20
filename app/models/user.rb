@@ -128,7 +128,7 @@ class User < ApplicationRecord
   def get_old_score(client)
     oldscore = 0
     self.words.each do |word|
-      oldscore += word.get_score(self, client) if !word.today?
+      oldscore += word.get_score(self, client) if !word.alive?
     end
     self.reports.each do |rp|
       oldscore += rp.succeed ? 0 : 0 if !rp.today?
