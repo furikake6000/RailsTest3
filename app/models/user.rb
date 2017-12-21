@@ -110,7 +110,7 @@ class User < ApplicationRecord
       self.todayscore += word.get_score(self, client) if word.alive?
     end
     self.reports.each do |rp|
-      self.todayscore += rp.succeed ? 0 : 0 if rp.today?
+      self.todayscore += rp.succeed ? 100 : -20 if rp.today?
     end
     self.save
     return self.todayscore
@@ -122,7 +122,7 @@ class User < ApplicationRecord
       yesterdayscore += word.get_score(self, client) if word.yesterday?
     end
     self.reports.each do |rp|
-      yesterdayscore += rp.succeed ? 0 : 0 if rp.yesterday?
+      yesterdayscore += rp.succeed ? 100 : -20 if rp.yesterday?
     end
     return yesterdayscore
   end
@@ -133,7 +133,7 @@ class User < ApplicationRecord
       oldscore += word.get_score(self, client) if !word.alive?
     end
     self.reports.each do |rp|
-      oldscore += rp.succeed ? 0 : 0 if !rp.today?
+      oldscore += rp.succeed ? 100 : -20 if !rp.today?
     end
     return oldscore
   end
