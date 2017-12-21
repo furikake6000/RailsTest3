@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   def tweetlink(string)
-    linkstr = "https://twitter.com/intent/tweet?" + "text=" + string + "&hashtags=F国からのスパイ"
+    linkstr = "https://twitter.com/intent/tweet?" + "text=" + string + "&hashtags=F国からのスパイ&url=https://spyfromf.nc2.co"
     return URI.escape(linkstr)
   end
 
