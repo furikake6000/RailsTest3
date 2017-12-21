@@ -20,7 +20,7 @@ class StaticPagesController < ApplicationController
   def info
   end
 
-  def sandbox
+  def omikuji
   end
 
   def postimage

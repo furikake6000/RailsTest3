@@ -15,8 +15,9 @@ Rails.application.routes.draw do
   get '/report', to: 'users#report_history'
   post '/users/report', to:'users#report'
 
-  get '/sandbox', to:'static_pages#sandbox'
-  post '/sandbox/postimage', to: 'static_pages#postimage'
+  get '/omikuji', to: 'static_pages#omikuji'
+  #get '/sandbox', to:'static_pages#sandbox'
+  #post '/sandbox/postimage', to: 'static_pages#postimage'
 
   get '/admin', to:'static_pages#admin'
 
