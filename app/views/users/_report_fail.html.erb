@@ -2,7 +2,7 @@
   <div class="card-body">
     <h4 class="card-title">摘発失敗</h4>
     <p class="card-text">該当人物は暗号「<%= @wordstr %>」を所持してはいませんでした。</p>
-    <p class="card-text">貴方へのペナルティとして50ポイントが減算されます。</p>
+    <p class="card-text">貴方へのペナルティとして20ポイントが減算されます。</p>
     <%= link_to "情報を共有する", tweetlink("#{@user_tw_account.name}( @#{@user_tw_account.screen_name} )氏を暗号「#{@wordstr}」所持容疑で摘発したが失敗した。氏は善良な市民であった..."), class: "btn btn-dark", target: "_new" %>
     <hr>
     <p class="card-text mb-0"><small>引き続き監視の目を緩めないでください。</small></p>
