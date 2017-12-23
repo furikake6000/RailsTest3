@@ -26,4 +26,4 @@ production:
   timeout: 5000
   username: furikake
   password: furikake
-  database: db/production.postgresql
+  database: postgres
