@@ -29,8 +29,6 @@ class Word < ApplicationRecord
     self.detected = true
     self.detectorid = user.id
     self.save
-    user.score += 100
-    user.save
   end
 
   def alive?
