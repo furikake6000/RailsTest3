@@ -19,7 +19,7 @@ class User < ApplicationRecord
     self.words.each do |word|
       worddate = word.created_at.dup.localtime("+09:00").to_date
       #今日の単語は、キャッシュ取得がまだ行われていないか5分以内に行われていなかったら取得待ち列に並べる
-      todayswords.push(word) if (worddate == Time.zone.today && (word.cached_at.nil? || word.cached_at < Time.zone.now.ago(1800)))
+      todayswords.push(word) if (worddate == Time.zone.today && (word.cached_at.nil? || word.cached_at < Time.zone.now.ago(300)))
       #昨日の単語は、今日キャッシュ取得がまだ行われていなかったら取得待ち列に並べる
       yesterdayswords.push(word) if (worddate == Time.zone.yesterday && ( word.cached_at.nil? || word.cached_at.localtime("+09:00").to_date == Time.zone.yesterday))
     end
@@ -119,7 +119,7 @@ class User < ApplicationRecord
   end
 
   #単語スコアを計算
-  def get_word_score(client)
+  def get_words_score(client)
     wordscore = 0
     self.words.each do |word|
       wordscore += word.get_score(self, client)
