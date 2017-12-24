@@ -1,9 +1,3 @@
-<% user.name = @user_tw_account.name %>
-<% user.screen_name = @user_tw_account.screen_name %>
-<% user.url = @user_tw_account.url.to_s %>
-<% user.imgurl = get_twpic_uri(@user_tw_account) %>
-<% user.save %>
-
 <div class="media mb-3">
   <%= link_to image_tag(user.imgurl, size: "96x96" , alt: user.name, class: "mr-3 rounded-circle"), user.url, target:"_new" %>
   <div class="media-body">

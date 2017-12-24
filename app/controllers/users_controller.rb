@@ -16,6 +16,11 @@ class UsersController < ApplicationController
     end
     render_404 if @user.nil?
 
+    User.transaction do
+      @user.lock!
+      @user.update_tw_account(@user_tw_account)
+    end
+
     #Words取得
     @words = @user.words.all
     words_p = @words.partition{|w| w.alive?}
@@ -32,26 +37,42 @@ class UsersController < ApplicationController
   end
 
   def report_history
-      #ログインしていないと見られない
-      if !logged_in?
-        redirect_to root_path
-        return
+    #ログインしていないと見られない
+    if !logged_in?
+      redirect_to root_path
+      return
+    end
+    @client = client_new
+
+    current_user.reports.all.uniq{ |rp| rp.reported_id }.each do |rp|
+      if rp.reported.screen_name.nil? or rp.reported.screen_name.blank?
+        User.transaction do
+          rp.reported.lock!
+          acc = @client.user(rp.reported.twid.to_i)
+          rp.reported.update_tw_account(acc)
+        end
       end
-      @client = client_new
+    end
+
+    @rphists = current_user.reports.all.order("created_at DESC")
   end
 
   def report
     if params[:ajax_tag] == 'report'
       @user = User.find(params[:reported_id])
-      @client = client_new
-      @wordstr = params[:word]
-      @user_tw_account = @client.user(@user.twid.to_i)
       render_404 if @user.nil?
+
       if params[:word].blank?
         @result = "blank"
         return
       end
+
+      @client = client_new
+      @wordstr = params[:word]
+      @user_tw_account = @client.user(@user.twid.to_i)
+
       @word = @user.words.find_by(name: params[:word])
+
       if !(@word.nil?)
         if !(@word.report_available?)
           #通報期限切れ
@@ -59,14 +80,23 @@ class UsersController < ApplicationController
         elsif @word.detected
           @result = "alreadyreported"
         else
-          @word.detect_by(current_user)
-          current_user.reports.create(reported: @user, word_str: params[:word], succeed: true)
-          current_user.save
+          User.transaction do
+            me = current_user
+            @user.lock! # 摘発した相手のデータを更新するのでロックする
+            me.lock!
+            @word.detect_by(me)
+            me.reports.create(reported: @user, word_str: params[:word], succeed: true)
+            me.save!
+          end
           @result = "success"
         end
       else
-        current_user.reports.create(reported: @user, word_str: params[:word], succeed: false)
-        current_user.save
+        User.transaction do
+          me = current_user
+          me.lock!
+          me.reports.create(reported: @user, word_str: params[:word], succeed: false)
+          me.save!
+        end
         @result = "fail"
       end
     else
