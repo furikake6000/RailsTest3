@@ -71,19 +71,19 @@ class User < ApplicationRecord
   end
 
   def words_reset(client)
-    #2日以上前の単語を削除する
-    self.words.each do |word|
-      if word.created_at.localtime("+09:00").to_date < Time.zone.yesterday
-        word.destroy
-      end
-    end
+    #2日以上前の単語を削除する→しない
+    #self.words.each do |word|
+    #  if word.created_at.localtime("+09:00").to_date < Time.zone.yesterday
+    #    word.destroy
+    #  end
+    #end
     #1時を過ぎたら
-    if self.word_updated_at.nil? || self.word_updated_at.localtime("+09:00").to_date <= (Time.zone.now - 1.hour).to_date.yesterday
+    #if self.word_updated_at.nil? || self.word_updated_at.localtime("+09:00").to_date <= (Time.zone.now - 1.hour).to_date.yesterday
       #スコア加算
-      self.score += self.get_old_score(nil)
-      self.word_updated_at = Time.zone.now
-      self.save
-    end
+    #  self.score += self.get_old_score(nil)
+    #  self.word_updated_at = Time.zone.now
+    #  self.save
+    #end
 
     #もし今日の単語7個持っていなかったら
     todaywordcount = 0
@@ -97,13 +97,15 @@ class User < ApplicationRecord
     end
   end
 
+  #総スコアを計算する
   def get_score(client)
-    self.get_todays_score(nil) if self.todayscore.nil?
-    self.current_score_cache = self.score + self.todayscore
+    #基準スコア（アップデート前のスコア）に単語スコアとレポートスコアを加算しキャッシュに保存
+    self.current_score_cache = self.score + self.get_words_score(nil) + self.get_reports_score(nil)
     self.save
     return self.current_score_cache
   end
 
+  #一日ごとスコアを計算する
   def get_todays_score(client)
     self.todayscore = 0
     self.words.each do |word|
@@ -116,25 +118,20 @@ class User < ApplicationRecord
     return self.todayscore
   end
 
-  def get_yesterdays_score(client)
-    yesterdayscore = 0
+  #単語スコアを計算
+  def get_word_score(client)
+    wordscore = 0
     self.words.each do |word|
-      yesterdayscore += word.get_score(self, client) if word.yesterday?
+      wordscore += word.get_score(self, client)
     end
-    self.reports.each do |rp|
-      yesterdayscore += rp.succeed ? 100 : -20 if rp.yesterday?
-    end
-    return yesterdayscore
+    return wordscore
   end
-
-  def get_old_score(client)
-    oldscore = 0
-    self.words.each do |word|
-      oldscore += word.get_score(self, client) if !word.alive?
-    end
+  #摘発スコアを計算
+  def get_reports_score(client)
+    reportscore = 0
     self.reports.each do |rp|
-      oldscore += rp.succeed ? 100 : -20 if !rp.today?
+      reportscore += rp.succeed ? 100 : -20
     end
-    return oldscore
+    return reportscore
   end
 end
