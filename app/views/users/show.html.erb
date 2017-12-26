@@ -1,5 +1,7 @@
 <div class="row">
   <div class="col-lg-4 order-lg-1 col-md-8 order-md-1 col-sm-12 order-sm-1">
+    <!-- <%= "Sc:#{@user.score} Ws:#{@user.get_words_score(nil)} Rs:#{@user.get_reports_score(nil)}" %> -->
+
     <%= render 'users/user_header', user: @user %>
 
     <% if @user != current_user %>
