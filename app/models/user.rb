@@ -61,10 +61,10 @@ class User < ApplicationRecord
     end
 
     yesterdayswords.each do |w|
-      w.save
+      w.save!
     end
     todayswords.each do |w|
-      w.save
+      w.save!
     end
 
     self.get_todays_score(nil)
@@ -101,7 +101,6 @@ class User < ApplicationRecord
   def get_score(client)
     #基準スコア（アップデート前のスコア）に単語スコアとレポートスコアを加算しキャッシュに保存
     self.current_score_cache = self.score + self.get_words_score(nil) + self.get_reports_score(nil)
-    self.save
     return self.current_score_cache
   end
 
@@ -114,7 +113,7 @@ class User < ApplicationRecord
     self.reports.each do |rp|
       self.todayscore += rp.succeed ? 100 : -20 if rp.today?
     end
-    self.save
+    self.save!
     return self.todayscore
   end
 
@@ -133,5 +132,17 @@ class User < ApplicationRecord
       reportscore += rp.succeed ? 100 : -20
     end
     return reportscore
+  end
+
+  def update_tw_account(user_tw_account)
+    self.name = user_tw_account.name
+    self.screen_name = user_tw_account.screen_name
+    self.url = user_tw_account.url.to_s
+    self.imgurl = ApplicationController.helpers.get_twpic_uri(user_tw_account)
+    #鍵垢判定
+    if self.is_secret != user_tw_account.protected?
+      self.is_secret = user_tw_account.protected?
+    end
+    self.save!
   end
 end

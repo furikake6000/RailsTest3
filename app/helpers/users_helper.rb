@@ -2,17 +2,27 @@ module UsersHelper
   def render_users_home
     @client = client_new
 
-    @user = current_user
     @user_tw_account = @client.user(current_user.twid.to_i)
+    @user = current_user
 
-    #鍵垢判定
-    if @user.is_secret != @user_tw_account.protected?
-      @user.is_secret = @user_tw_account.protected?
-      @user.save
+    User.transaction do
+      @user.lock!
+
+      @user.update_tw_account(@user_tw_account)
+
+      @user.refresh_wordcaches(@client)
+      @user.words_reset(@client)
+
+      @detected_word = []
+      @user.words.select{ |w| w.detected && !w.noticed_detection }.each do |word|
+        word.noticed_detection = true
+        word.save!
+        detector = User.find(word.detectorid)
+        next if detector.nil?
+        word.detectoraccount = @client.user(detector.twid.to_i)
+        @detected_word.push(word)
+      end
     end
-
-    @user.refresh_wordcaches(@client)
-    @user.words_reset(@client)
 
     #Words取得
     @words = @user.words.all

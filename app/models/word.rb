@@ -42,4 +42,6 @@ class Word < ApplicationRecord
   def report_available?
     return (self.created_at.localtime("+09:00") > (Time.now - 1.hour).localtime("+09:00").beginning_of_day)
   end
+
+  attr_accessor :detectoraccount
 end
