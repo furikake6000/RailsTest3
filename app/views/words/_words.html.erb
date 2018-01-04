@@ -25,6 +25,6 @@
     <td><%= @user.get_score(nil) %></td>
   </tr>
 </table>
-<% if !@todayswords.empty? %>
+<% if !@todayswords.empty? && !@todayswords.first.cached_at.nil? %>
 <p>※ <%= smart_time_to_str(@todayswords.first.cached_at) %> 現在の情報です</p>
 <% end %>
