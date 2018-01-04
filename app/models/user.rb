@@ -61,34 +61,20 @@ class User < ApplicationRecord
     end
 
     yesterdayswords.each do |w|
-      w.save
+      w.save!
     end
     todayswords.each do |w|
-      w.save
+      w.save!
     end
 
     self.get_todays_score(nil)
   end
 
   def words_reset(client)
-    #2日以上前の単語を削除する→しない
-    #self.words.each do |word|
-    #  if word.created_at.localtime("+09:00").to_date < Time.zone.yesterday
-    #    word.destroy
-    #  end
-    #end
-    #1時を過ぎたら
-    #if self.word_updated_at.nil? || self.word_updated_at.localtime("+09:00").to_date <= (Time.zone.now - 1.hour).to_date.yesterday
-      #スコア加算
-    #  self.score += self.get_old_score(nil)
-    #  self.word_updated_at = Time.zone.now
-    #  self.save
-    #end
-
     #もし今日の単語7個持っていなかったら
     todaywordcount = 0
     self.words.each do |word|
-      if word.created_at.localtime("+09:00").to_date == Time.zone.today
+      if word.alive?
         todaywordcount += 1
       end
     end
@@ -101,7 +87,7 @@ class User < ApplicationRecord
   def get_score(client)
     #基準スコア（アップデート前のスコア）に単語スコアとレポートスコアを加算しキャッシュに保存
     self.current_score_cache = self.score + self.get_words_score(nil) + self.get_reports_score(nil)
-    self.save
+    self.save!
     return self.current_score_cache
   end
 
@@ -114,7 +100,7 @@ class User < ApplicationRecord
     self.reports.each do |rp|
       self.todayscore += rp.succeed ? 100 : -20 if rp.today?
     end
-    self.save
+    self.save!
     return self.todayscore
   end
 

@@ -28,7 +28,7 @@ class Word < ApplicationRecord
   def detect_by(user)
     self.detected = true
     self.detectorid = user.id
-    self.save
+    self.save!
   end
 
   def alive?
