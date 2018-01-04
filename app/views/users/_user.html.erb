@@ -1,10 +1,6 @@
 <% if user.screen_name.nil? or user.screen_name.blank? %>
   <% acc = @client.user(user.twid.to_i) %>
-  <% user.name = acc.name %>
-  <% user.screen_name = acc.screen_name %>
-  <% user.url = acc.url.to_s %>
-  <% user.imgurl = get_twpic_uri(acc) %>
-  <% user.save %>
+  <% user.update_tw_account(acc) %>
 <% end %>
 
 <div class="media">

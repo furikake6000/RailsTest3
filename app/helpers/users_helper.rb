@@ -4,6 +4,7 @@ module UsersHelper
 
     @user = current_user
     @user_tw_account = @client.user(current_user.twid.to_i)
+    @user.update_tw_account(@user_tw_account)
 
     #鍵垢判定
     if @user.is_secret != @user_tw_account.protected?
