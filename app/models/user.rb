@@ -120,4 +120,17 @@ class User < ApplicationRecord
     end
     return reportscore
   end
+
+  #Twitterアカウントの情報を更新する
+  def update_tw_account(user_tw_account)
+    self.name = user_tw_account.name
+    self.screen_name = user_tw_account.screen_name
+    self.url = user_tw_account.url.to_s
+    self.imgurl = ApplicationController.helpers.get_twpic_uri(user_tw_account)
+    #鍵垢判定
+    if self.is_secret != user_tw_account.protected?
+      self.is_secret = user_tw_account.protected?
+    end
+    self.save!
+  end
 end

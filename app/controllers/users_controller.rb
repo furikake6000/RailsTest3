@@ -38,6 +38,14 @@ class UsersController < ApplicationController
         return
       end
       @client = client_new
+      @rphists = current_user.reports.all.order("created_at DESC")
+
+      @rphists.each do |rp|
+        if rp.reported.screen_name.nil? or rp.reported.screen_name.blank?
+          acc = @client.rp(rp.reported.twid.to_i)
+          rp.reported.update_tw_account(acc)
+        end
+      end
   end
 
   def report

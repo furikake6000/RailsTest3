@@ -1,5 +1,4 @@
 <h2>摘発履歴</h2>
-<% rphists = current_user.reports.all.order("created_at DESC") %>
 
 <table class="table">
   <thead>
@@ -11,16 +10,8 @@
     </tr>
   </thead>
   <tbody>
-    <% rphists.each do |rp| %>
+    <% @rphists.each do |rp| %>
 
-    <% if rp.reported.screen_name.nil? or rp.reported.screen_name.blank? %>
-      <% acc = @client.rp(rp.reported.twid.to_i) %>
-      <% rp.reported.name = acc.name %>
-      <% rp.reported.screen_name = acc.screen_name %>
-      <% rp.reported.url = acc.url.to_s %>
-      <% rp.reported.imgurl = get_twpic_uri(acc) %>
-      <% rp.reported.save %>
-    <% end %>
     <tr>
       <td><%= "#{rp.reported.name}(@#{rp.reported.screen_name})" %></td>
       <td><%= rp.word_str %></td>
