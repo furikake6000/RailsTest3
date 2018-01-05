@@ -38,6 +38,8 @@ class User < ApplicationRecord
     catch :finish do
       1.upto(50) do |i|
         tweets = client.user_timeline(query_params)
+        #max_idで指定されている時、max_idのツイートも含まれてしまうためこれを回避(最初のツイートを除く)
+        tweets.shift if query_params.has_key?(:max_id)
         #ツイートが空だったら抜ける（mix3@ｻﾀﾃﾞｰﾅｲﾄﾌｨｰﾊﾞｰ様、ありがとうございます）
         throw :finish if tweets.empty?
         tweets.each do |tweet|
